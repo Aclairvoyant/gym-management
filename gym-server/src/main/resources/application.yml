@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${sjdddd.datasource.driver-class-name}
+      url: jdbc:mysql://${sjdddd.datasource.host}:${sjdddd.datasource.port}/${sjdddd.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${sjdddd.datasource.username}
+      password: ${sjdddd.datasource.password}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sjdddd.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      sky:
+        mapper: debug
+        service: info
+        controller: info
