@@ -14,7 +14,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import io.swagger.v3.oas.annotations.*;
+
 
 
 import java.util.List;
@@ -84,9 +84,16 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * 设置静态资源映射
      * @param registry
      */
+    @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/swagger-ui.html/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/3.0.0/");
+        //registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/3.0.0/");
+        //registry.addResourceHandler("/swagger-resources/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/3.0.0/");
+        //registry.addResourceHandler("/v3/api-docs/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/3.0.0/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+
     }
 
     /**

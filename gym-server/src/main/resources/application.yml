@@ -18,7 +18,8 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
   packages-to-scan: com.sjdddd.controller
-
+  api-docs:
+    path: /v3/api-docs
 
 mybatis:
   #mapper配置文件
