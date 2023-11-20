@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjdddd.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    <!--@Table gym_logs-->
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="action_type" jdbcType="VARCHAR" property="actionType" />
+    <result column="action_date" jdbcType="TIMESTAMP" property="actionDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    log_id, user_id, action_type, action_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from gym_logs
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from gym_logs
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_logs (user_id, action_type, action_date
+      )
+    values (#{userId,jdbcType=BIGINT}, #{actionType,jdbcType=VARCHAR}, #{actionDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_logs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="actionType != null">
+        action_type,
+      </if>
+      <if test="actionDate != null">
+        action_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="actionType != null">
+        #{actionType,jdbcType=VARCHAR},
+      </if>
+      <if test="actionDate != null">
+        #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    update gym_logs
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="actionType != null">
+        action_type = #{actionType,jdbcType=VARCHAR},
+      </if>
+      <if test="actionDate != null">
+        action_date = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    update gym_logs
+    set user_id = #{userId,jdbcType=BIGINT},
+      action_type = #{actionType,jdbcType=VARCHAR},
+      action_date = #{actionDate,jdbcType=TIMESTAMP}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+</mapper>

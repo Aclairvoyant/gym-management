@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjdddd.mapper.BookingMapper">
+  <resultMap id="BaseResultMap" type="com.sjdddd.entity.Booking">
+    <!--@mbg.generated-->
+    <!--@Table gym_booking-->
+    <id column="booking_id" jdbcType="BIGINT" property="bookingId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="booking_date" jdbcType="TIMESTAMP" property="bookingDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    booking_id, user_id, course_id, booking_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from gym_booking
+    where booking_id = #{bookingId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from gym_booking
+    where booking_id = #{bookingId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="booking_id" keyProperty="bookingId" parameterType="com.sjdddd.entity.Booking" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_booking (user_id, course_id, booking_date
+      )
+    values (#{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{bookingDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="booking_id" keyProperty="bookingId" parameterType="com.sjdddd.entity.Booking" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_booking
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="bookingDate != null">
+        booking_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="bookingDate != null">
+        #{bookingDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Booking">
+    <!--@mbg.generated-->
+    update gym_booking
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=BIGINT},
+      </if>
+      <if test="bookingDate != null">
+        booking_date = #{bookingDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where booking_id = #{bookingId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Booking">
+    <!--@mbg.generated-->
+    update gym_booking
+    set user_id = #{userId,jdbcType=BIGINT},
+      course_id = #{courseId,jdbcType=BIGINT},
+      booking_date = #{bookingDate,jdbcType=TIMESTAMP}
+    where booking_id = #{bookingId,jdbcType=BIGINT}
+  </update>
+</mapper>

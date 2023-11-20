@@ -6,17 +6,19 @@ spring:
     active: dev
   main:
     allow-circular-references: true
-#  datasource:
-#    druid:
-#      driver-class-name: ${sjdddd.datasource.driver-class-name}
-#      url: jdbc:mysql://${sjdddd.datasource.host}:${sjdddd.datasource.port}/${sjdddd.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-#      username: ${sjdddd.datasource.username}
-#      password: ${sjdddd.datasource.password}
   datasource:
     driver-class-name: ${sjdddd.datasource.driver-class-name}
     url: jdbc:mysql://${sjdddd.datasource.host}:${sjdddd.datasource.port}/${sjdddd.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: ${sjdddd.datasource.username}
     password: ${sjdddd.datasource.password}
+  application:
+    name: sjdddd
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  packages-to-scan: com.sjdddd.controller
+
 
 mybatis:
   #mapper配置文件
@@ -29,7 +31,16 @@ mybatis:
 logging:
   level:
     com:
-      sky:
+      sjdddd:
         mapper: debug
         service: info
         controller: info
+
+sjdddd:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: sjdddd
+    # 设置jwt过期时间
+    user-ttl: 7200000000
+    # 设置前端传递过来的令牌名称
+    user-token-name: token

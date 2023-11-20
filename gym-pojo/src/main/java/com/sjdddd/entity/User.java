@@ -19,36 +19,72 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+//@ApiModel(description="用户信息表")
 public class User implements Serializable {
 
-    //用户id
-    private Long UserId;
+    /**
+     * 用户id
+     */
+    //@ApiModelProperty(value="用户id")
+    private Long userId;
 
-    //用户名
-    private String UserName;
+    /**
+     * 用户名
+     */
+    //@ApiModelProperty(value="用户名")
+    private String userName;
 
-    //用户密码
-    private String UserPassword;
+    /**
+     * 用户密码
+     */
+    //@ApiModelProperty(value="用户密码")
+    private String password;
 
-    //用户真名
-    private String UserRealName;
+    /**
+     * 用户姓名
+     */
+    //@ApiModelProperty(value="用户姓名")
+    private String userRealName;
 
-    //用户手机号码
-    private String UserPhone;
+    /**
+     * 手机号
+     */
+    //@ApiModelProperty(value="手机号")
+    private String userPhone;
 
-    //出生日期
-    private Date UserDateOfBirth;
+    /**
+     * 用户生日
+     */
+    //@ApiModelProperty(value="用户生日")
+    private Date dateBirth;
 
-    //用户角色
-    private String UserRole;
+    /**
+     * 用户类型
+     */
+    //@ApiModelProperty(value="用户类型")
+    private String userType;
 
-    //用户头像
-    private String UserAvatar;
+    /**
+     * 头像地址
+     */
+    //@ApiModelProperty(value="头像地址")
+    private String avatar;
 
-    //用户性别
-    private String UserSex;
+    /**
+     * 性别，0 男， 1 女， 2未知
+     */
+    //@ApiModelProperty(value="性别，0 男， 1 女， 2未知")
+    private String sex;
 
-    //注册时间
-    private LocalDateTime UserCreateTime;
+    /**
+     * 创建时间
+     */
+    //@ApiModelProperty(value="创建时间")
+    private Date createTime;
 
+    /**
+     * 更新时间
+     */
+    //@ApiModelProperty(value="更新时间")
+    private Date updateTime;
 }

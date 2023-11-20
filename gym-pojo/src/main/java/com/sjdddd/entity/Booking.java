@@ -1,34 +1,46 @@
 package com.sjdddd.entity;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
- * @Author: 沈佳栋
- * @Description: 预定信息
- * @DateTime: 2023/10/24 21:09
- **/
-
+* @Author: 沈佳栋
+* @Description: TODO
+* @DateTime: 2023/11/20 16:32
+**/
+/**
+    * 预定表
+    */
+//@ApiModel(description="预定表")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Booking implements Serializable {
+@NoArgsConstructor
+public class Booking {
+    /**
+    * 预定id
+    */
+    //@ApiModelProperty(value="预定id")
+    private Long bookingId;
 
-    //预定id
-    private Long BookingId;
+    /**
+    * 用户id
+    */
+    //@ApiModelProperty(value="用户id")
+    private Long userId;
 
-    //用户id
-    private Long UserId;
+    /**
+    * 课程id
+    */
+    //@ApiModelProperty(value="课程id")
+    private Long courseId;
 
-    //课程id
-    private Long CourseId;
-
-    //预定时间
-    private LocalDateTime BookingTime;
+    /**
+    * 预定日期时间
+    */
+    //@ApiModelProperty(value="预定日期时间")
+    private Date bookingDate;
 }

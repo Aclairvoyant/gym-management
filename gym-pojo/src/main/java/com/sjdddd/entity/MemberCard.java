@@ -1,59 +1,77 @@
 package com.sjdddd.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
- * @Author: 沈佳栋
- * @Description: 会员卡信息
- * @DateTime: 2023/10/24 21:02
- **/
-
+* @Author: 沈佳栋
+* @Description: TODO
+* @DateTime: 2023/11/20 16:32
+**/
+/**
+    * 会员表
+    */
+//@ApiModel(description="会员表")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class MemberCard implements Serializable {
+@NoArgsConstructor
+public class MemberCard {
+    /**
+    * 会员卡号
+    */
+    //@ApiModelProperty(value="会员卡号")
+    private Long memberCardId;
 
     /**
-     * 会员卡状态 0-未激活 1-已激活 2-已过期
-     */
-    public static final Integer UN_ACTIVATED = 0;
-    public static final Integer ACTIVATED = 1;
-    public static final Integer EXPIRED = 2;
+    * 用户id
+    */
+    //@ApiModelProperty(value="用户id")
+    private Long userId;
 
-    //会员卡id
-    private Long MemberCardId;
+    /**
+    * 头像地址
+    */
+    //@ApiModelProperty(value="头像地址")
+    private String avatar;
 
-    //用户id
-    private Long UserId;
+    /**
+    * 会员余额
+    */
+    //@ApiModelProperty(value="会员余额")
+    private BigDecimal memberFee;
 
-    //会员头像
-    private String MemberCardAvatar;
+    /**
+    * 会员卡状态，0 未激活， 1 已激活， 2 已过期
+    */
+    //@ApiModelProperty(value="会员卡状态，0 未激活， 1 已激活， 2 已过期")
+    private String memberCardStatus;
 
-    //激活时间
-    private LocalDateTime MemberCardActivationTime;
+    /**
+    * 激活日期
+    */
+    //@ApiModelProperty(value="激活日期")
+    private Date activateTime;
 
-    //过期时间
-    private LocalDateTime MemberCardExpirationTime;
+    /**
+    * 过期日期
+    */
+    //@ApiModelProperty(value="过期日期")
+    private Date expireTime;
 
-    //会员卡状态
-    private Integer MemberCardStatus;
+    /**
+    * 创建时间
+    */
+    //@ApiModelProperty(value="创建时间")
+    private Date createTime;
 
-    //创建时间
-    private LocalDateTime MemberCardCreateTime;
-
-    //更新时间
-    private LocalDateTime MemberCardUpdateTime;
-
-    //会员卡类型
-    //private String MemberCardType;
-
-    //会员卡余额
-    //private String MemberCardBalance;
+    /**
+    * 更新时间
+    */
+    //@ApiModelProperty(value="更新时间")
+    private Date updateTime;
 }

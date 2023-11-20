@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjdddd.mapper.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.sjdddd.entity.Course">
+    <!--@mbg.generated-->
+    <!--@Table gym_courses-->
+    <id column="course_id" jdbcType="BIGINT" property="courseId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="coach_id" jdbcType="BIGINT" property="coachId" />
+    <result column="schedule_start" jdbcType="TIMESTAMP" property="scheduleStart" />
+    <result column="schedule_end" jdbcType="TIMESTAMP" property="scheduleEnd" />
+    <result column="course_fee" jdbcType="DECIMAL" property="courseFee" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    course_id, course_name, coach_id, schedule_start, schedule_end, course_fee
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from gym_courses
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from gym_courses
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="course_id" keyProperty="courseId" parameterType="com.sjdddd.entity.Course" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_courses (course_name, coach_id, schedule_start,
+      schedule_end, course_fee)
+    values (#{courseName,jdbcType=VARCHAR}, #{coachId,jdbcType=BIGINT}, #{scheduleStart,jdbcType=TIMESTAMP},
+      #{scheduleEnd,jdbcType=TIMESTAMP}, #{courseFee,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="course_id" keyProperty="courseId" parameterType="com.sjdddd.entity.Course" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_courses
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="coachId != null">
+        coach_id,
+      </if>
+      <if test="scheduleStart != null">
+        schedule_start,
+      </if>
+      <if test="scheduleEnd != null">
+        schedule_end,
+      </if>
+      <if test="courseFee != null">
+        course_fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null">
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleStart != null">
+        #{scheduleStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleEnd != null">
+        #{scheduleEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseFee != null">
+        #{courseFee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Course">
+    <!--@mbg.generated-->
+    update gym_courses
+    <set>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachId != null">
+        coach_id = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="scheduleStart != null">
+        schedule_start = #{scheduleStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scheduleEnd != null">
+        schedule_end = #{scheduleEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseFee != null">
+        course_fee = #{courseFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Course">
+    <!--@mbg.generated-->
+    update gym_courses
+    set course_name = #{courseName,jdbcType=VARCHAR},
+      coach_id = #{coachId,jdbcType=BIGINT},
+      schedule_start = #{scheduleStart,jdbcType=TIMESTAMP},
+      schedule_end = #{scheduleEnd,jdbcType=TIMESTAMP},
+      course_fee = #{courseFee,jdbcType=DECIMAL}
+    where course_id = #{courseId,jdbcType=BIGINT}
+  </update>
+</mapper>

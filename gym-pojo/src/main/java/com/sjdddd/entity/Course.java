@@ -1,39 +1,59 @@
 package com.sjdddd.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 /**
- * @Author: 沈佳栋
- * @Description: 课程信息
- * @DateTime: 2023/10/24 21:06
- **/
+* @Author: 沈佳栋
+* @Description: TODO
+* @DateTime: 2023/11/20 16:32
+**/
+/**
+    * 课程信息表
+    */
+//@ApiModel(description="课程信息表")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Course implements Serializable {
+@NoArgsConstructor
+public class Course {
+    /**
+    * 课程id
+    */
+    //@ApiModelProperty(value="课程id")
+    private Long courseId;
 
-    //课程id
-    private Long CourseId;
+    /**
+    * 课程名
+    */
+    //@ApiModelProperty(value="课程名")
+    private String courseName;
 
-    //课程名称
-    private String CourseName;
+    /**
+    * 教练id
+    */
+    //@ApiModelProperty(value="教练id")
+    private Long coachId;
 
-    //教练id
-    private Long CoachId;
+    /**
+    * 课程开始时间
+    */
+    //@ApiModelProperty(value="课程开始时间")
+    private Date scheduleStart;
 
-    //课程类型
-    private String CourseType;
+    /**
+    * 课程结束时间
+    */
+    //@ApiModelProperty(value="课程结束时间")
+    private Date scheduleEnd;
 
-    //课程安排
-    private String CourseSchedule;
-
-    //课程费用
-    private BigDecimal CourseCost;
+    /**
+    * 课程金额
+    */
+    //@ApiModelProperty(value="课程金额")
+    private BigDecimal courseFee;
 }

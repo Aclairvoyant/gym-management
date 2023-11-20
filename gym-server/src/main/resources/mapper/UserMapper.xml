@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjdddd.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.sjdddd.entity.User">
+    <!--@mbg.generated-->
+    <!--@Table gym_users-->
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_real_name" jdbcType="VARCHAR" property="userRealName" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="date_birth" jdbcType="DATE" property="dateBirth" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    user_id, user_name, `password`, user_real_name, user_phone, date_birth, user_type,
+    avatar, sex, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from gym_users
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from gym_users
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.sjdddd.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_users (user_name, `password`, user_real_name,
+      user_phone, date_birth, user_type,
+      avatar, sex, create_time,
+      update_time)
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userRealName,jdbcType=VARCHAR},
+      #{userPhone,jdbcType=VARCHAR}, #{dateBirth,jdbcType=DATE}, #{userType,jdbcType=VARCHAR},
+      #{avatar,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.sjdddd.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="userRealName != null">
+        user_real_name,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="dateBirth != null">
+        date_birth,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null">
+        #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBirth != null">
+        #{dateBirth,jdbcType=DATE},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.User">
+    <!--@mbg.generated-->
+    update gym_users
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null">
+        user_real_name = #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dateBirth != null">
+        date_birth = #{dateBirth,jdbcType=DATE},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.User">
+    <!--@mbg.generated-->
+    update gym_users
+    set user_name = #{userName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      user_real_name = #{userRealName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      date_birth = #{dateBirth,jdbcType=DATE},
+      user_type = #{userType,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select * from gym_users
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+</mapper>

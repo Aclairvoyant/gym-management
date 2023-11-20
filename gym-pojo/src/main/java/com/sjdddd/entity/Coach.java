@@ -5,35 +5,47 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- * @Author: 沈佳栋
- * @Description: 教练信息
- * @DateTime: 2023/10/24 21:05
- **/
-
+* @Author: 沈佳栋
+* @Description: TODO
+* @DateTime: 2023/11/20 16:32
+**/
+/**
+    * 教练信息表
+    */
+//@ApiModel(description="教练信息表")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Coach implements Serializable {
+@NoArgsConstructor
+public class Coach {
+    /**
+    * 教练id
+    */
+    //@ApiModelProperty(value="教练id")
+    private Long coachId;
 
-    //教练id
-    private Long CoachId;
+    /**
+    * 性别，0 男， 1 女， 2未知
+    */
+    //@ApiModelProperty(value="性别，0 男， 1 女， 2未知")
+    private String coachSex;
 
-    //教练姓名
-    private String CoachName;
+    /**
+    * 教练姓名
+    */
+    //@ApiModelProperty(value="教练姓名")
+    private String coachRealName;
 
-    //教练性别
-    private String CoachSex;
+    /**
+    * 手机号
+    */
+    //@ApiModelProperty(value="手机号")
+    private String coachPhone;
 
-    //教练年龄
-    private String CoachAge;
-
-    //教练手机号码
-    private String CoachPhone;
-
-    //教练专长或授课类型
-    private String CoachSpecialty;
+    /**
+    * 教练专长或备注
+    */
+    //@ApiModelProperty(value="教练专长或备注")
+    private String coachRemark;
 }
