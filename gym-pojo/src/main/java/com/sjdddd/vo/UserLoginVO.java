@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginVO {
+public class UserLoginVO implements java.io.Serializable{
 
     private Long id;
 

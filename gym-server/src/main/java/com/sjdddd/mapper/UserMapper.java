@@ -1,6 +1,8 @@
 package com.sjdddd.mapper;
 
+import com.sjdddd.annotation.AutoFill;
 import com.sjdddd.entity.User;
+import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,8 +14,10 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     int deleteByPrimaryKey(Long userId);
 
+    @AutoFill(value = OperationType.INSERT)
     int insert(User record);
 
+    @AutoFill(value = OperationType.INSERT)
     int insertSelective(User record);
 
     User selectByPrimaryKey(Long userId);
@@ -22,5 +26,5 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User selectByUserName(String userName);
+    User selectByUserName(String username);
 }

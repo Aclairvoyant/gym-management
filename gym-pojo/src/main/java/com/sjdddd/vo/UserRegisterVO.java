@@ -1,4 +1,4 @@
-package com.sjdddd.entity;
+package com.sjdddd.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,29 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
  * @Author: 沈佳栋
- * @Description: 用户信息
- * @DateTime: 2023/10/24 20:55
+ * @Description: TODO
+ * @DateTime: 2023/11/21 15:12
  **/
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@ApiModel(description="用户信息表")
-public class User implements Serializable {
-
-    /**
-     * 用户id
-     */
-    //@ApiModelProperty(value="用户id")
-    private Long userId;
-
+public class UserRegisterVO implements java.io.Serializable{
     /**
      * 用户名
      */
@@ -77,18 +68,4 @@ public class User implements Serializable {
      */
     //@ApiModelProperty(value="性别，0 男， 1 女， 2未知")
     private String sex;
-
-    /**
-     * 创建时间
-     */
-    //@ApiModelProperty(value="创建时间")
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    //@ApiModelProperty(value="更新时间")
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateTime;
 }

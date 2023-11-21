@@ -9,7 +9,7 @@ import lombok.Data;
  **/
 
 @Data
-public class UserLoginDTO {
+public class UserLoginDTO implements java.io.Serializable{
     private String userName;
 
     private String password;

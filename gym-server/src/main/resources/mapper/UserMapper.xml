@@ -167,6 +167,6 @@
 
   <select id="selectByUserName" resultMap="BaseResultMap">
     select * from gym_users
-    where user_name = #{userName,jdbcType=VARCHAR}
+    where user_name = #{username,jdbcType=VARCHAR}
   </select>
 </mapper>

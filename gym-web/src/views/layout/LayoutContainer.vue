@@ -1,9 +1,14 @@
+<script setup lang="ts">
+
+</script>
+
 <template>
   <div>
+    架子
     <router-view></router-view>
   </div>
 </template>
 
-<style lang="stylus">
+<style scoped lang="stylus">
 
 </style>

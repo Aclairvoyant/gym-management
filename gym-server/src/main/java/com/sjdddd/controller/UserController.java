@@ -2,6 +2,7 @@ package com.sjdddd.controller;
 
 import com.sjdddd.constant.JwtClaimsConstant;
 import com.sjdddd.dto.UserLoginDTO;
+import com.sjdddd.dto.UserRegisterDTO;
 import com.sjdddd.entity.User;
 import com.sjdddd.properties.JwtProperties;
 import com.sjdddd.result.Result;
@@ -61,5 +62,15 @@ public class UserController {
 
         return Result.success(userLoginVO);
 
+    }
+
+    @CrossOrigin
+    @PostMapping("/register")
+    public Result<User> register(@RequestBody UserRegisterDTO userRegisterDTO) {
+        log.info("用户注册：{}", userRegisterDTO.getUserName());
+
+        User user = userService.register(userRegisterDTO);
+
+        return Result.success(user);
     }
 }
