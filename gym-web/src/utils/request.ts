@@ -16,7 +16,8 @@ instance.interceptors.request.use(
         // TODO 2. 携带token
         const useStore = useUserStore()
         if (useStore.token) {
-            config.headers.Authorization = useStore.token
+            config.headers['token'] = useStore.token
+
         }
         return config
     },
@@ -32,9 +33,9 @@ instance.interceptors.response.use(
         }
         // TODO 3. 处理业务失败
         // 处理业务失败, 给错误提示，抛出错误
-        console.log(res.data.code)
-        ElMessage.error(res.data.message || '服务异常')
-        return Promise.reject(res.data)
+        //console.log(res.data.code)
+        ElMessage.error(res.data.msg || '服务异常')
+        return Promise.reject(res)
     },
     (err) => {
         // TODO 5. 处理401错误
@@ -44,10 +45,11 @@ instance.interceptors.response.use(
         }
 
         // 错误的默认情况 => 只要给提示
-        ElMessage.error(err.response.data.message || '服务异常')
+        ElMessage.error(err.response.data.msg || '服务异常')
         return Promise.reject(err)
     }
 )
+
 
 export default instance
 export { baseURL }

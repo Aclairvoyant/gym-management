@@ -55,8 +55,8 @@ const rules = {
   ],
   userPhone: [
     { required: true, message: '请输入手机号', trigger: 'blur' },
-    // { pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-    //   message: '手机号格式不正确', trigger: 'blur' },
+    { pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+      message: '手机号格式不正确', trigger: 'blur' },
     {
       required: true,
       trigger: 'blur'
@@ -64,8 +64,8 @@ const rules = {
   ],
   userRealName: [
     { required: true, message: '请输入真实姓名', trigger: 'blur' },
-    // { pattern: /^[\u4E00-\u9FA5]{2,10}/,
-    //   message: '真实姓名格式不正确', trigger: 'blur' },
+    { pattern: /^[\u4E00-\u9FA5]{2,10}/,
+      message: '真实姓名格式不正确', trigger: 'blur' },
     {
       required: true,
       trigger: 'blur'
@@ -123,10 +123,10 @@ const beforeAvatarUpload = (file) => {
 const register = async () => {
   // 注册成功之前，先进行校验，校验成功 → 请求，校验失败 → 自动提示
   await form.value.validate()
-  formModel.value.datebirth = formModel.value.datebirth.toString();// 将日期转为字符串
+  //formModel.value.datebirth = formModel.value.datebirth.toString();// 将日期转为字符串
   console.log(formModel.value.datebirth)
-  formModel.value.avatar = formModel.value.avatar || ''; // 头像地址
-  console.log(formModel.value.avatar)
+  //formModel.value.avatar = formModel.value.avatar || ''; // 头像地址
+  //console.log(formModel.value.avatar)
   await userRegisterService(formModel.value)
   ElMessage.success('注册成功')
   isRegister.value = false
@@ -137,7 +137,9 @@ const router = useRouter()
 const login = async () => {
   await form.value.validate()
   const res = await userLoginService(formModel.value)
-  userStore.setToken(res.data.token)
+  // console.log(res.data.token)
+  // console.log(res.data.data)
+  userStore.setToken(res.data.data)
   ElMessage.success('登录成功')
   router.push('/')
 }
@@ -208,7 +210,7 @@ watch(isRegister, () => {
               v-model="formModel.repassword"
               :prefix-icon="Lock"
               type="password"
-              placeholder="请输入再次密码"
+              placeholder="请再次输入密码"
           ></el-input>
         </el-form-item>
         <el-form-item prop="userPhone">

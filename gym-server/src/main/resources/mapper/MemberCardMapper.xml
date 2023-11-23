@@ -1,143 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjdddd.mapper.MemberCardMapper">
-  <resultMap id="BaseResultMap" type="com.sjdddd.entity.MemberCard">
-    <!--@mbg.generated-->
-    <!--@Table gym_member_cards-->
-    <id column="member_card_id" jdbcType="BIGINT" property="memberCardId" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="member_fee" jdbcType="DECIMAL" property="memberFee" />
-    <result column="member_card_status" jdbcType="CHAR" property="memberCardStatus" />
-    <result column="activate_time" jdbcType="DATE" property="activateTime" />
-    <result column="expire_time" jdbcType="DATE" property="expireTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    member_card_id, user_id, avatar, member_fee, member_card_status, activate_time, expire_time,
-    create_time, update_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select
-    <include refid="Base_Column_List" />
-    from gym_member_cards
-    where member_card_id = #{memberCardId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    <!--@mbg.generated-->
-    delete from gym_member_cards
-    where member_card_id = #{memberCardId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="member_card_id" keyProperty="memberCardId" parameterType="com.sjdddd.entity.MemberCard" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into gym_member_cards (user_id, avatar, member_fee,
-      member_card_status, activate_time, expire_time,
-      create_time, update_time)
-    values (#{userId,jdbcType=BIGINT}, #{avatar,jdbcType=VARCHAR}, #{memberFee,jdbcType=DECIMAL},
-      #{memberCardStatus,jdbcType=CHAR}, #{activateTime,jdbcType=DATE}, #{expireTime,jdbcType=DATE},
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" keyColumn="member_card_id" keyProperty="memberCardId" parameterType="com.sjdddd.entity.MemberCard" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into gym_member_cards
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="avatar != null">
-        avatar,
-      </if>
-      <if test="memberFee != null">
-        member_fee,
-      </if>
-      <if test="memberCardStatus != null">
-        member_card_status,
-      </if>
-      <if test="activateTime != null">
-        activate_time,
-      </if>
-      <if test="expireTime != null">
-        expire_time,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="avatar != null">
-        #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="memberFee != null">
-        #{memberFee,jdbcType=DECIMAL},
-      </if>
-      <if test="memberCardStatus != null">
-        #{memberCardStatus,jdbcType=CHAR},
-      </if>
-      <if test="activateTime != null">
-        #{activateTime,jdbcType=DATE},
-      </if>
-      <if test="expireTime != null">
-        #{expireTime,jdbcType=DATE},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.MemberCard">
-    <!--@mbg.generated-->
-    update gym_member_cards
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="avatar != null">
+    <resultMap id="BaseResultMap" type="com.sjdddd.entity.MemberCard">
+        <!--@mbg.generated-->
+        <!--@Table gym_member_cards-->
+        <id column="member_card_id" jdbcType="BIGINT" property="memberCardId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="member_fee" jdbcType="DECIMAL" property="memberFee"/>
+        <result column="member_card_status" jdbcType="CHAR" property="memberCardStatus"/>
+        <result column="activate_time" jdbcType="DATE" property="activateTime"/>
+        <result column="expire_time" jdbcType="DATE" property="expireTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        member_card_id, user_id, avatar, member_fee, member_card_status, activate_time, expire_time,
+        create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from gym_member_cards
+        where member_card_id = #{memberCardId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from gym_member_cards
+        where member_card_id = #{memberCardId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="member_card_id" keyProperty="memberCardId"
+            parameterType="com.sjdddd.entity.MemberCard" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into gym_member_cards (user_id, avatar, member_fee,
+        member_card_status, activate_time, expire_time,
+        create_time, update_time)
+        values (#{userId,jdbcType=BIGINT}, #{avatar,jdbcType=VARCHAR}, #{memberFee,jdbcType=DECIMAL},
+        #{memberCardStatus,jdbcType=CHAR}, #{activateTime,jdbcType=DATE}, #{expireTime,jdbcType=DATE},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="member_card_id" keyProperty="memberCardId"
+            parameterType="com.sjdddd.entity.MemberCard" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into gym_member_cards
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="memberFee != null">
+                member_fee,
+            </if>
+            <if test="memberCardStatus != null">
+                member_card_status,
+            </if>
+            <if test="activateTime != null">
+                activate_time,
+            </if>
+            <if test="expireTime != null">
+                expire_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="memberFee != null">
+                #{memberFee,jdbcType=DECIMAL},
+            </if>
+            <if test="memberCardStatus != null">
+                #{memberCardStatus,jdbcType=CHAR},
+            </if>
+            <if test="activateTime != null">
+                #{activateTime,jdbcType=DATE},
+            </if>
+            <if test="expireTime != null">
+                #{expireTime,jdbcType=DATE},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.MemberCard">
+        <!--@mbg.generated-->
+        update gym_member_cards
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="memberFee != null">
+                member_fee = #{memberFee,jdbcType=DECIMAL},
+            </if>
+            <if test="memberCardStatus != null">
+                member_card_status = #{memberCardStatus,jdbcType=CHAR},
+            </if>
+            <if test="activateTime != null">
+                activate_time = #{activateTime,jdbcType=DATE},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime,jdbcType=DATE},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.MemberCard">
+        <!--@mbg.generated-->
+        update gym_member_cards
+        set user_id = #{userId,jdbcType=BIGINT},
         avatar = #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="memberFee != null">
         member_fee = #{memberFee,jdbcType=DECIMAL},
-      </if>
-      <if test="memberCardStatus != null">
         member_card_status = #{memberCardStatus,jdbcType=CHAR},
-      </if>
-      <if test="activateTime != null">
         activate_time = #{activateTime,jdbcType=DATE},
-      </if>
-      <if test="expireTime != null">
         expire_time = #{expireTime,jdbcType=DATE},
-      </if>
-      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where member_card_id = #{memberCardId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.MemberCard">
-    <!--@mbg.generated-->
-    update gym_member_cards
-    set user_id = #{userId,jdbcType=BIGINT},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      member_fee = #{memberFee,jdbcType=DECIMAL},
-      member_card_status = #{memberCardStatus,jdbcType=CHAR},
-      activate_time = #{activateTime,jdbcType=DATE},
-      expire_time = #{expireTime,jdbcType=DATE},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where member_card_id = #{memberCardId,jdbcType=BIGINT}
-  </update>
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where member_card_id = #{memberCardId,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectAll" resultType="com.sjdddd.entity.MemberCard">
+        select *
+        from gym_member_cards mc
+                 left join gym_users u
+                           on u.user_id = mc.user_id
+        where user_type = '2'
+        order by mc.create_time desc
+    </select>
+
+    <select id="selectByUserRealName" resultMap="BaseResultMap">
+        select *
+        from gym_member_cards mc
+        left join gym_users u
+        on u.user_id = mc.user_id
+        <where>
+            <if test="userRealName != null and userRealName != ''">
+                and u.user_real_name like concat('%', #{userRealName}, '%')
+            </if>
+            and user_type = '2'
+        </where>
+        order by mc.create_time desc
+    </select>
+
+    <!--  <select id="selectAll2" resultMap="BaseResultMap">-->
+    <!--    select *-->
+    <!--    from gym_member_cards mc-->
+    <!--    left join gym_users u-->
+    <!--    on u.user_id = mc.user_id-->
+    <!--    where user_type = '2'-->
+    <!--    order by mc.create_time desc-->
+    <!--  </select>-->
 </mapper>

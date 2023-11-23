@@ -48,7 +48,7 @@ public class AutoFillAspect {
         log.info("开始进行公共字段填充...");
 
         //获取方法名
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature(); //获取方法签名对象
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature(); //获取方法签名对象
         AutoFill autoFill = signature.getMethod().getAnnotation(AutoFill.class);//获取方法上的注解
         OperationType operationType = autoFill.value();//获得操作类型(插入或更新)
 
@@ -84,7 +84,7 @@ public class AutoFillAspect {
             //更新操作
             try {
                 Method setUpdateTime = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
-                Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
+                //Method setUpdateUser = entity.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
                 //赋值
                 setUpdateTime.invoke(entity, now);

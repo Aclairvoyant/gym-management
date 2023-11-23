@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {useUserStore} from "@/stores";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'home',
     component: () => import('../views/layout/LayoutContainer.vue'),
-    redirect: '/member/list',
+
     children: [
       {
         path: '/member/list', component: () => import('../views/member/MemberList.vue')
@@ -39,6 +40,19 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from) => {
+
+  const useStore = useUserStore()
+
+  console.log(useStore.token)
+
+  if (!useStore.token && to.path !== '/login') {
+    return '/login'
+  }
+
+  return true
 })
 
 export default router

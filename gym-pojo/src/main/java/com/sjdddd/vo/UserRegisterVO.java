@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,7 +48,6 @@ public class UserRegisterVO implements java.io.Serializable{
      * 用户生日
      */
     //@ApiModelProperty(value="用户生日")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateBirth;
 
     /**

@@ -1,14 +1,119 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <div>
-    架子
-    <router-view></router-view>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <div>
+          <!--          <img src="@/assets/default.png" alt="">-->
+          <span>健身房会员管理系统</span>
+        </div>
+      </el-header>
+      <el-container class="layout-container">
+        <el-aside width="240px">
+          <el-row>
+            <el-col>
+              <div class="el-aside__logo">
+                <!--                <img src="@/assets/logoc.png" alt="">-->
+              </div>
+              <el-menu class="el-menu"
+                       background-color="#DCDCDC"
+                       :default-active="$route.path"
+                       @open="handleOpen"
+                       @close="handleClose"
+                       router
+              >
+                <el-menu-item index="/member/list">
+                  <el-icon>
+                    <UserFilled/>
+                  </el-icon>
+                  <span>会员管理</span>
+                </el-menu-item>
+                <el-menu-item index="/coach/list">
+                  <el-icon>
+                    <document/>
+                  </el-icon>
+                  <span>教练管理</span>
+                </el-menu-item>
+                <el-menu-item index="3">
+                  <el-icon>
+                    <setting/>
+                  </el-icon>
+                  <span>课程管理</span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                  <el-icon>
+                    <setting/>
+                  </el-icon>
+                  <span>订单查询</span>
+                </el-menu-item>
+              </el-menu>
+            </el-col>
+          </el-row>
+        </el-aside>
+        <el-main>
+          <router-view/>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
-<style scoped lang="stylus">
+<script setup>
+import {useUserStore} from '@/stores'
+import {onMounted} from 'vue'
+import {useRouter} from 'vue-router'
+
+const userStore = useUserStore()
+const router = useRouter()
+
+// onMounted(() => {
+//   userStore.getUser()
+// })
+</script>
+
+<style scoped>
+.layout-container {
+  height: calc(100vh - 64px);
+
+  .el-aside {
+    background-color: #DCDCDC;
+
+    &__logo {
+      height: 120px;
+      background: url('@/assets/logoc.png') no-repeat center / 120px auto;
+    }
+
+    .el-menu {
+      border-right: none;
+    }
+  }
+}
+
+.el-header {
+  background-color: #101010;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  padding-left: 40px;
+
+  align-items: center;
+
+  color: #fff;
+
+  font-size: 22px;
+
+  > div {
+
+    display: flex;
+
+    align-items: center;
+
+    span {
+      margin-left: 15px;
+    }
+  }
+
+}
 
 </style>

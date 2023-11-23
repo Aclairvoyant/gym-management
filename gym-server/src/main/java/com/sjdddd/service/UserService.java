@@ -18,5 +18,7 @@ public interface UserService {
      */
     User login(UserLoginDTO userLoginDTO);
 
-    User register(UserRegisterDTO userRegisterDTO);
+    void register(UserRegisterDTO userRegisterDTO);
+
+    User getUserInfo(String userName);
 }

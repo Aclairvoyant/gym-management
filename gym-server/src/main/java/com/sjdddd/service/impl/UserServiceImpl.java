@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户登录
+     *
      * @param userLoginDTO
      * @return
      */
@@ -61,11 +62,12 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户注册
+     *
      * @param userRegisterDTO
      * @return
      */
     @Override
-    public User register(UserRegisterDTO userRegisterDTO) {
+    public void register(UserRegisterDTO userRegisterDTO) {
 //        String username = userRegisterDTO.getUserName();
 //        String password = userRegisterDTO.getPassword();
 //        String userRealName = userRegisterDTO.getUserRealName();
@@ -92,6 +94,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
 
         userMapper.insertSelective(user);
+
+    }
+
+    @Override
+    public User getUserInfo(String userName) {
+        User user = userMapper.selectByUserName(userName);
+
+        if (user == null) {
+            // 账号不存在
+            throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
 
         return user;
     }

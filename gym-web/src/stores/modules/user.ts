@@ -1,19 +1,12 @@
 import { defineStore } from "pinia";
 import {ref} from "vue";
+import {userGetInfoService} from "@/apis/user";
 
 //用户模块
-export const useUserStore = defineStore('user',() => {
-    const userName = ref<string>('')
+export const useUserStore = defineStore('big-user',() => {
 
     const token = ref<string>('')
 
-    const setUsername = (newUsername: string) => {
-        userName.value = newUsername
-    }
-
-    const removeUsername = () => {
-        userName.value = ''
-    }
 
     const setToken = (newToken: string) => {
         token.value = newToken
@@ -23,18 +16,24 @@ export const useUserStore = defineStore('user',() => {
         token.value = ''
     }
 
+    const user = ref({})
+    const getUser = async () => {
+        const res = await userGetInfoService() // 请求获取数据
+        user.value = res.data.data
+    }
+    const setUser = (obj: any) => {
+        user.value = obj
+    }
+
     return {
-        userName,
         token,
         setToken,
-        removeToken
+        removeToken,
+        getUser,
+        setUser,
     }
 }, {
-    persist: true
+    persist: true,
 })
 
-interface LoginInfo {
-    username: string,
-    password: string
-}
 

@@ -1,96 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjdddd.mapper.PaymentMapper">
-  <resultMap id="BaseResultMap" type="com.sjdddd.entity.Payment">
-    <!--@mbg.generated-->
-    <!--@Table gym_payments-->
-    <id column="payment_id" jdbcType="BIGINT" property="paymentId" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="amount" jdbcType="DECIMAL" property="amount" />
-    <result column="payment_date" jdbcType="TIMESTAMP" property="paymentDate" />
-    <result column="payment_type" jdbcType="VARCHAR" property="paymentType" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    payment_id, user_id, amount, payment_date, payment_type
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select
-    <include refid="Base_Column_List" />
-    from gym_payments
-    where payment_id = #{paymentId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    <!--@mbg.generated-->
-    delete from gym_payments
-    where payment_id = #{paymentId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="payment_id" keyProperty="paymentId" parameterType="com.sjdddd.entity.Payment" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into gym_payments (user_id, amount, payment_date,
-      payment_type)
-    values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{paymentDate,jdbcType=TIMESTAMP},
-      #{paymentType,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="payment_id" keyProperty="paymentId" parameterType="com.sjdddd.entity.Payment" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into gym_payments
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="amount != null">
-        amount,
-      </if>
-      <if test="paymentDate != null">
-        payment_date,
-      </if>
-      <if test="paymentType != null">
-        payment_type,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="amount != null">
-        #{amount,jdbcType=DECIMAL},
-      </if>
-      <if test="paymentDate != null">
-        #{paymentDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="paymentType != null">
-        #{paymentType,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Payment">
-    <!--@mbg.generated-->
-    update gym_payments
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="amount != null">
+    <resultMap id="BaseResultMap" type="com.sjdddd.entity.Payment">
+        <!--@mbg.generated-->
+        <!--@Table gym_payments-->
+        <id column="payment_id" jdbcType="BIGINT" property="paymentId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="payment_date" jdbcType="TIMESTAMP" property="paymentDate"/>
+        <result column="payment_type" jdbcType="VARCHAR" property="paymentType"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        payment_id, user_id, amount, payment_date, payment_type
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from gym_payments
+        where payment_id = #{paymentId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from gym_payments
+        where payment_id = #{paymentId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="payment_id" keyProperty="paymentId" parameterType="com.sjdddd.entity.Payment"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into gym_payments (user_id, amount, payment_date,
+        payment_type)
+        values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{paymentDate,jdbcType=TIMESTAMP},
+        #{paymentType,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="payment_id" keyProperty="paymentId"
+            parameterType="com.sjdddd.entity.Payment" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into gym_payments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="paymentDate != null">
+                payment_date,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentDate != null">
+                #{paymentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Payment">
+        <!--@mbg.generated-->
+        update gym_payments
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="amount != null">
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="paymentDate != null">
+                payment_date = #{paymentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where payment_id = #{paymentId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Payment">
+        <!--@mbg.generated-->
+        update gym_payments
+        set user_id = #{userId,jdbcType=BIGINT},
         amount = #{amount,jdbcType=DECIMAL},
-      </if>
-      <if test="paymentDate != null">
         payment_date = #{paymentDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="paymentType != null">
-        payment_type = #{paymentType,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where payment_id = #{paymentId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Payment">
-    <!--@mbg.generated-->
-    update gym_payments
-    set user_id = #{userId,jdbcType=BIGINT},
-      amount = #{amount,jdbcType=DECIMAL},
-      payment_date = #{paymentDate,jdbcType=TIMESTAMP},
-      payment_type = #{paymentType,jdbcType=VARCHAR}
-    where payment_id = #{paymentId,jdbcType=BIGINT}
-  </update>
+        payment_type = #{paymentType,jdbcType=VARCHAR}
+        where payment_id = #{paymentId,jdbcType=BIGINT}
+    </update>
 </mapper>

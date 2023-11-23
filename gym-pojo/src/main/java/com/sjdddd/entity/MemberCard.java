@@ -1,6 +1,7 @@
 package com.sjdddd.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,23 +56,38 @@ public class MemberCard {
     * 激活日期
     */
     //@ApiModelProperty(value="激活日期")
-    private Date activateTime;
+    private LocalDateTime activateTime;
 
     /**
     * 过期日期
     */
     //@ApiModelProperty(value="过期日期")
-    private Date expireTime;
+    private LocalDateTime expireTime;
 
     /**
     * 创建时间
     */
     //@ApiModelProperty(value="创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
     * 更新时间
     */
     //@ApiModelProperty(value="更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
+
+    /**
+     * 用户姓名
+     */
+    private String userRealName;
+
+    /**
+     * 性别
+     */
+    private String sex;
+
+    /**
+     * 手机号
+     */
+    private String userPhone;
 }

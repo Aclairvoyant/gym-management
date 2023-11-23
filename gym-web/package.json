@@ -17,6 +17,7 @@
     "js-cookie": "^3.0.5",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "sass-loader": "^13.3.2",
     "stores": "^1.0.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",

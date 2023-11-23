@@ -8,15 +8,14 @@ import com.sjdddd.properties.JwtProperties;
 import com.sjdddd.result.Result;
 import com.sjdddd.service.UserService;
 import com.sjdddd.utils.JwtUtil;
+import com.sjdddd.utils.ThreadLocalUtil;
 import com.sjdddd.vo.UserLoginVO;
+import com.sjdddd.vo.UserRegisterVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +29,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @Tag(name = "用户相关接口")
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -38,10 +38,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/login")
     @Operation(summary = "用户登录")
-    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
+    public Result login(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("用户登录：{}", userLoginDTO.getUserName());
 
         User user = userService.login(userLoginDTO);
@@ -54,22 +54,33 @@ public class UserController {
                 jwtProperties.getUserTtl(),
                 claims);
 
-        UserLoginVO userLoginVO = UserLoginVO.builder()
-                .id(user.getUserId())
-                .userName(user.getUserName())
-                .token(token)
-                .build();
+//        UserLoginVO userLoginVO = UserLoginVO.builder()
+//                .id(user.getUserId())
+//                .userName(user.getUserName())
+//                .token(token)
+//                .build();
 
-        return Result.success(userLoginVO);
+        return Result.success(token);
 
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping("/register")
-    public Result<User> register(@RequestBody UserRegisterDTO userRegisterDTO) {
+    public Result register(@RequestBody UserRegisterDTO userRegisterDTO) {
         log.info("用户注册：{}", userRegisterDTO.getUserName());
 
-        User user = userService.register(userRegisterDTO);
+        userService.register(userRegisterDTO);
+
+        return Result.success();
+    }
+
+    @GetMapping("/userInfo")
+    public Result<User> userInfo() {
+        Map<String, Object> map = ThreadLocalUtil.get();
+
+        String username = (String) map.get("userName");
+
+        User user = userService.getUserInfo(username);
 
         return Result.success(user);
     }

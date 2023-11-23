@@ -6,10 +6,10 @@ import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* @Author: 沈佳栋
-* @Description: TODO
-* @DateTime: 2023/11/20 16:31
-**/
+ * @Author: 沈佳栋
+ * @Description: TODO
+ * @DateTime: 2023/11/20 16:31
+ **/
 @Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Long userId);
@@ -22,8 +22,10 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Long userId);
 
+    @AutoFill(value = OperationType.UPDATE)
     int updateByPrimaryKeySelective(User record);
 
+    @AutoFill(value = OperationType.UPDATE)
     int updateByPrimaryKey(User record);
 
     User selectByUserName(String username);

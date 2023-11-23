@@ -23,7 +23,7 @@ public class OssConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public AliOssUtil aliOssUtil(AliOssProperties aliOssProperties) {
-        log.info("开始创建阿里云OSS工具类,{}" , aliOssProperties);
+        log.info("开始创建阿里云OSS工具类,{}", aliOssProperties);
         return new AliOssUtil(aliOssProperties.getEndpoint(), aliOssProperties.getAccessKeyId(),
                 aliOssProperties.getAccessKeySecret(), aliOssProperties.getBucketName());
     }

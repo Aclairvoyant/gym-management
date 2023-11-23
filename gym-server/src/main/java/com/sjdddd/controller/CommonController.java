@@ -3,8 +3,6 @@ package com.sjdddd.controller;
 import com.sjdddd.constant.MessageConstant;
 import com.sjdddd.result.Result;
 import com.sjdddd.utils.AliOssUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

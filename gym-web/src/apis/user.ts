@@ -1,4 +1,4 @@
-import { AxiosPromise } from 'axios';
+import {AxiosPromise} from 'axios';
 import request from '@/utils/request';
 
 interface UserRegisterParams {
@@ -7,7 +7,7 @@ interface UserRegisterParams {
     repassword: string;
     userRealName: string;
     userPhone: number;
-    dateBirth: Date;
+    dateBirth: string;
     sex: number;
     avatar: string;
 }
@@ -18,9 +18,13 @@ interface UserLoginParams {
 }
 
 interface UserInfo {
-    id: number;
-    nickname: string;
-    email: string;
+    data: [
+        userName: string,
+        userRealName: string,
+        userPhone: number,
+        avatar: string
+    ];
+
 }
 
 interface UserUpdateInfoParams {
@@ -40,24 +44,33 @@ interface UserUpdatePasswordParams {
 }
 
 // 注册接口
-export const userRegisterService = ({ userName, password, repassword, userRealName, userPhone, dateBirth, sex, avatar }: UserRegisterParams): AxiosPromise =>
-    request.post('/register', { userName, password, repassword, userRealName, userPhone, dateBirth, sex, avatar});
+export const userRegisterService = ({
+                                        userName,
+                                        password,
+                                        repassword,
+                                        userRealName,
+                                        userPhone,
+                                        dateBirth,
+                                        sex,
+                                        avatar
+                                    }: UserRegisterParams): AxiosPromise =>
+    request.post('/register', {userName, password, repassword, userRealName, userPhone, dateBirth, sex, avatar});
 
 // 登录接口
-export const userLoginService = ({ userName, password }: UserLoginParams): AxiosPromise =>
-    request.post('/login', { userName, password });
+export const userLoginService = ({userName, password}: UserLoginParams): AxiosPromise =>
+    request.post('/login', {userName, password});
 
 // 获取用户基本信息
-export const userGetInfoService = (): AxiosPromise<UserInfo> => request.get('/my/userinfo');
+export const userGetInfoService = (): AxiosPromise<UserInfo> => request.get('/userInfo');
 
 // 更新用户基本信息
-export const userUpdateInfoService = ({ id, nickname, email }: UserUpdateInfoParams): AxiosPromise =>
-    request.put('/my/userinfo', { id, nickname, email });
+export const userUpdateInfoService = ({id, nickname, email}: UserUpdateInfoParams): AxiosPromise =>
+    request.put('/userInfo', {id, nickname, email});
 
 // 更新用户头像
 export const userUpdateAvatarService = (avatar: string): AxiosPromise =>
-    request.patch('/my/update/avatar', { avatar });
+    request.patch('/update/avatar', {avatar});
 
 // 更新用户密码
-export const userUpdatePasswordService = ({ old_pwd, new_pwd, re_pwd }: UserUpdatePasswordParams): AxiosPromise =>
-    request.patch('/my/updatepwd', { old_pwd, new_pwd, re_pwd });
+export const userUpdatePasswordService = ({old_pwd, new_pwd, re_pwd}: UserUpdatePasswordParams): AxiosPromise =>
+    request.patch('/updatepwd', {old_pwd, new_pwd, re_pwd});
