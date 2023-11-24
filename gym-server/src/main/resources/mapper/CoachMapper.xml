@@ -131,4 +131,9 @@
         </if>
         order by create_time desc
     </select>
+
+    <select id="selectCoachRealName" resultMap="BaseResultMap">
+        select coach_real_name from gym_coachs
+        order by create_time
+    </select>
 </mapper>

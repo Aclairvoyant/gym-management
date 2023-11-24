@@ -10,10 +10,12 @@
         <result column="schedule_start" jdbcType="TIMESTAMP" property="scheduleStart"/>
         <result column="schedule_end" jdbcType="TIMESTAMP" property="scheduleEnd"/>
         <result column="course_fee" jdbcType="DECIMAL" property="courseFee"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        course_id, course_name, coach_id, schedule_start, schedule_end, course_fee
+        course_id, course_name, coach_id, schedule_start, schedule_end, course_fee, create_time, update_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -31,9 +33,9 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into gym_courses (course_name, coach_id, schedule_start,
-        schedule_end, course_fee)
+        schedule_end, course_fee, create_time, update_time)
         values (#{courseName,jdbcType=VARCHAR}, #{coachId,jdbcType=BIGINT}, #{scheduleStart,jdbcType=TIMESTAMP},
-        #{scheduleEnd,jdbcType=TIMESTAMP}, #{courseFee,jdbcType=DECIMAL})
+        #{scheduleEnd,jdbcType=TIMESTAMP}, #{courseFee,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" keyColumn="course_id" keyProperty="courseId" parameterType="com.sjdddd.entity.Course"
             useGeneratedKeys="true">
@@ -55,6 +57,12 @@
             <if test="courseFee != null">
                 course_fee,
             </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="courseName != null">
@@ -71,6 +79,12 @@
             </if>
             <if test="courseFee != null">
                 #{courseFee,jdbcType=DECIMAL},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -93,6 +107,12 @@
             <if test="courseFee != null">
                 course_fee = #{courseFee,jdbcType=DECIMAL},
             </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
         </set>
         where course_id = #{courseId,jdbcType=BIGINT}
     </update>
@@ -103,7 +123,28 @@
         coach_id = #{coachId,jdbcType=BIGINT},
         schedule_start = #{scheduleStart,jdbcType=TIMESTAMP},
         schedule_end = #{scheduleEnd,jdbcType=TIMESTAMP},
-        course_fee = #{courseFee,jdbcType=DECIMAL}
+        course_fee = #{courseFee,jdbcType=DECIMAL},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
         where course_id = #{courseId,jdbcType=BIGINT}
     </update>
+
+    <select id="selectAll" resultType="com.sjdddd.entity.Course">
+        select course.*, coach.coach_real_name
+        from gym_courses course
+                 left join gym_coachs coach
+                           on course.coach_id = coach.coach_id
+        order by course_id
+    </select>
+
+    <select id="selectByCourseName" resultMap="BaseResultMap">
+        select course.*, coach.coach_real_name
+        from gym_courses course
+                 left join gym_coachs coach
+                           on course.coach_id = coach.coach_id
+        <if test="_parameter != null and _parameter != ''">
+            where course_name like concat('%', #{courseName, jdbcType=VARCHAR}, '%')
+        </if>
+        order by course_id
+    </select>
 </mapper>

@@ -34,4 +34,6 @@ public interface CoachMapper {
     List<Coach> selectAll();
 
     List<Coach> selectByCoachRealName(String coachRealName);
+
+    List<Coach> selectCoachRealName();
 }

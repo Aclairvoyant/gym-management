@@ -1,6 +1,7 @@
 package com.sjdddd.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,12 @@ public class Course {
     private Long coachId;
 
     /**
+     * 教练姓名
+     */
+    //@ApiModelProperty(value="教练姓名")
+    private String coachRealName;
+
+    /**
     * 课程开始时间
     */
     //@ApiModelProperty(value="课程开始时间")
@@ -56,4 +63,18 @@ public class Course {
     */
     //@ApiModelProperty(value="课程金额")
     private BigDecimal courseFee;
+
+    /**
+     * 创建时间
+     */
+    //@ApiModelProperty(value="创建时间")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    //@ApiModelProperty(value="更新时间")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 }
