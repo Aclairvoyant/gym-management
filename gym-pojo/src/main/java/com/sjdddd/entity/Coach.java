@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
 * @Author: 沈佳栋
 * @Description: TODO
@@ -48,4 +50,18 @@ public class Coach {
     */
     //@ApiModelProperty(value="教练专长或备注")
     private String coachRemark;
+
+    /**
+     * 创建时间
+     */
+    //@ApiModelProperty(value="创建时间")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    //@ApiModelProperty(value="更新时间")
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 }

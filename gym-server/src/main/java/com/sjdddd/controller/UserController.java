@@ -76,6 +76,8 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public Result<User> userInfo() {
+        log.info("获取用户信息");
+
         Map<String, Object> map = ThreadLocalUtil.get();
 
         String username = (String) map.get("userName");

@@ -4,13 +4,15 @@
       <div class="header">
         <h2>会员列表</h2>
         <div class="extra">
-          <el-input v-model="searchName" placeholder="请输入会员姓名" style="width: 200px;" :prefix-icon="Search" class="search-input"></el-input>
+          <el-input v-model="searchName" placeholder="请输入会员姓名" style="width: 200px;" :prefix-icon="Search"
+                    class="search-input"></el-input>
           <el-button type="primary" @click="searchMember">搜索</el-button>
           <el-button type="primary" @click="addMember">添加会员</el-button>
         </div>
       </div>
     </template>
 
+    <router-view :key="route.fullPath"></router-view>
     <!-- 表单 -->
     <el-table v-loading="loading.value" :data="members" style="width: 100%">
       <el-table-column prop="memberCardId" label="会员卡号" width="150"></el-table-column>
@@ -34,6 +36,11 @@
           {{ formatDate(row.createTime) }}
         </template>
       </el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" width="180">
+        <template #default="{ row }">
+          {{ formatDate(row.updateTime) }}
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作" width="120" align="center" fixed="right">
         <template #default="{ row }">
@@ -46,20 +53,21 @@
         <el-empty description="没有数据"/>
       </template>
     </el-table>
-
     <!-- 分页 -->
     <div class="el-page">
-      <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pagination.currentPage"
-          :page-sizes="[10, 20, 30, 40, 50]"
-          :page-size="pagination.pageSize"
-          :total="pagination.total"
-          :background="true"
-          layout="jumper, total, sizes, prev, pager, next"
-          style="margin-top: 20px;">
-      </el-pagination>
+      <el-config-provider :locale="language">
+        <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pagination.currentPage"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            :page-size="pagination.pageSize"
+            :total="pagination.total"
+            :background="true"
+            layout="jumper, total, sizes, prev, pager, next"
+            style="margin-top: 20px;">
+        </el-pagination>
+      </el-config-provider>
     </div>
 
 
@@ -109,7 +117,7 @@
   <el-dialog v-model="addDialogVisible" title="添加会员信息">
     <el-form :model="addFormData">
       <el-form-item label="会员卡号" :label-width="formLabelWidth">
-        <el-input disabled placeholder="卡号由系统生成"></el-input>
+        <el-input disabled placeholder="卡号由系统自动生成"></el-input>
       </el-form-item>
       <el-form-item label="会员姓名" :label-width="formLabelWidth">
         <el-input v-model="addFormData.userRealName" autocomplete="off"></el-input>
@@ -155,9 +163,15 @@ import {
 import {ElMessage, ElMessageBox} from "element-plus";
 import {ref, onMounted} from "vue";
 import {Delete, Edit, Search} from "@element-plus/icons-vue";
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 
 const members = ref([]); // 定义 members
+const language = ref(zhCn); // 定义语言
+const loading = ref(false); // 控制加载状态的显示
 
 // const fetchMembers = async () => {
 //   try {
@@ -170,25 +184,6 @@ const members = ref([]); // 定义 members
 //     console.error('获取会员列表失败:', error);
 //   }
 // };
-
-// 获取会员列表，并支持分页
-const fetchMembers = async () => {
-  try {
-    loading.value = true;
-    const pageNum = pagination.value.currentPage;
-    const pageSize = pagination.value.pageSize;
-
-    //console.log(params)
-    const response = await getMemberListService({pageNum, pageSize});
-    members.value = response.data.data.items;
-    pagination.value.total = response.data.data.total;
-    loading.value = false;
-  } catch (error) {
-    console.error('获取会员列表失败:', error);
-  }
-};
-
-onMounted(fetchMembers);
 
 // 分页数据
 const pagination = ref({
@@ -208,6 +203,27 @@ const handleCurrentChange = (newPage) => {
   pagination.value.currentPage = newPage;
   fetchMembers();
 };
+
+// 获取会员列表，并支持分页
+const fetchMembers = async () => {
+  try {
+    loading.value = true;
+    const pageNum = pagination.value.currentPage;
+    const pageSize = pagination.value.pageSize;
+
+    //console.log(params)
+    const response = await getMemberListService({pageNum, pageSize});
+    members.value = response.data.data.items;
+    console.log(members.value)
+    pagination.value.total = response.data.data.total;
+    loading.value = false;
+  } catch (error) {
+    console.error('获取会员列表失败:', error);
+  }
+};
+
+onMounted(fetchMembers);
+
 
 const genderText = (genderCode) => {
   const genders = {
@@ -290,7 +306,7 @@ const handleDelete = (members) => {
         // 调用 API 删除会员...
         try {
           //console.log('删除会员', members.memberCardId)
-          await deleteMemberService({ memberCardId: members.memberCardId });
+          await deleteMemberService({memberCardId: members.memberCardId});
         } catch (error) {
           console.error('删除会员失败:', error);
           ElMessage.error('删除失败');
@@ -307,8 +323,6 @@ const handleDelete = (members) => {
       });
 };
 
-
-const loading = ref(false); // 控制加载状态的显示
 
 // 添加会员
 const addNewMember = async () => {
@@ -342,7 +356,7 @@ const searchMember = async () => {
     const userRealName = searchName.value;
     const pageNum = pagination.value.currentPage;
     const pageSize = pagination.value.pageSize;
-    const response = await searchMemberService({ pageNum, pageSize, userRealName });
+    const response = await searchMemberService({pageNum, pageSize, userRealName});
     members.value = response.data.data.items; // 使用搜索结果更新会员列表
   } catch (error) {
     console.error('搜索会员失败:', error);

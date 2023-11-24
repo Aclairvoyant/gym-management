@@ -51,14 +51,16 @@ CREATE TABLE gym_coachs (
                             coach_real_name VARCHAR(10) NOT NULL COMMENT '教练姓名',
                             coach_phone VARCHAR(11) DEFAULT '' COMMENT '手机号',
                             coach_remark VARCHAR(500) DEFAULT NULL COMMENT '教练专长或备注',
+                            create_time DATETIME COMMENT '创建时间',
+                            update_time DATETIME COMMENT '更新时间',
                             PRIMARY KEY(coach_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '教练信息表';
 
-INSERT INTO gym_coachs (coach_sex, coach_real_name, coach_phone, coach_remark)
+INSERT INTO gym_coachs (coach_sex, coach_real_name, coach_phone, coach_remark, create_time, update_time)
 VALUES
-    ('0', 'John Doe', '12345678901', 'Weightlifting expert'),
-    ('1', 'Jane Doe', '98765432101', 'Yoga and flexibility training'),
-    ('2', 'Alex Smith', NULL, 'Certified nutritionist and personal trainer');
+    ('0', 'John Doe', '12345678901', 'Weightlifting expert', NOW(), NOW()),
+    ('1', 'Jane Doe', '98765432101', 'Yoga and flexibility training', NOW(), NOW()),
+    ('2', 'Alex Smith', NULL, 'Certified nutritionist and personal trainer', NOW(), now());
 
 
 DROP TABLE IF EXISTS gym_courses;

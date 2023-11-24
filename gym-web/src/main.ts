@@ -11,6 +11,8 @@ const app = createApp(App)
 
 app.use(router)
 app.use(ElementPlus)
+// 屏蔽警告信息
+app.config.warnHandler = () => null;
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)

@@ -17,15 +17,14 @@ interface UserLoginParams {
     password: string;
 }
 
-interface UserInfo {
-    data: [
-        userName: string,
-        userRealName: string,
-        userPhone: number,
-        avatar: string
-    ];
-
-}
+// interface UserInfo {
+//     userName: string,
+//     userRealName?: string,
+//     sex?: string,
+//     userPhone?: number,
+//     avatar?: string
+//
+// }
 
 interface UserUpdateInfoParams {
     id: number;
@@ -61,7 +60,8 @@ export const userLoginService = ({userName, password}: UserLoginParams): AxiosPr
     request.post('/login', {userName, password});
 
 // 获取用户基本信息
-export const userGetInfoService = (): AxiosPromise<UserInfo> => request.get('/userInfo');
+export const userGetInfoService = (): AxiosPromise =>
+    request.get('/userInfo');
 
 // 更新用户基本信息
 export const userUpdateInfoService = ({id, nickname, email}: UserUpdateInfoParams): AxiosPromise =>

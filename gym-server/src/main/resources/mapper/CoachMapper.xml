@@ -9,10 +9,12 @@
         <result column="coach_real_name" jdbcType="VARCHAR" property="coachRealName"/>
         <result column="coach_phone" jdbcType="VARCHAR" property="coachPhone"/>
         <result column="coach_remark" jdbcType="VARCHAR" property="coachRemark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        coach_id, coach_sex, coach_real_name, coach_phone, coach_remark
+        coach_id, coach_sex, coach_real_name, coach_phone, coach_remark, create_time, update_time
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -30,9 +32,9 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into gym_coachs (coach_sex, coach_real_name, coach_phone,
-        coach_remark)
+        coach_remark, create_time, update_time)
         values (#{coachSex,jdbcType=CHAR}, #{coachRealName,jdbcType=VARCHAR}, #{coachPhone,jdbcType=VARCHAR},
-        #{coachRemark,jdbcType=VARCHAR})
+        #{coachRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
     </insert>
     <insert id="insertSelective" keyColumn="coach_id" keyProperty="coachId" parameterType="com.sjdddd.entity.Coach"
             useGeneratedKeys="true">
@@ -51,6 +53,12 @@
             <if test="coachRemark != null">
                 coach_remark,
             </if>
+            <if test="createTime != null ">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="coachSex != null">
@@ -64,6 +72,12 @@
             </if>
             <if test="coachRemark != null">
                 #{coachRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -83,6 +97,12 @@
             <if test="coachRemark != null">
                 coach_remark = #{coachRemark,jdbcType=VARCHAR},
             </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
         </set>
         where coach_id = #{coachId,jdbcType=BIGINT}
     </update>
@@ -92,7 +112,23 @@
         set coach_sex = #{coachSex,jdbcType=CHAR},
         coach_real_name = #{coachRealName,jdbcType=VARCHAR},
         coach_phone = #{coachPhone,jdbcType=VARCHAR},
-        coach_remark = #{coachRemark,jdbcType=VARCHAR}
+        coach_remark = #{coachRemark,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
         where coach_id = #{coachId,jdbcType=BIGINT}
     </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from gym_coachs
+        order by create_time
+    </select>
+
+    <select id="selectByCoachRealName" resultMap="BaseResultMap">
+        select *
+        from gym_coachs
+        <if test="coach_real_name != null and coach_real_name != ''">
+            where coach_real_name like concat('%', #{coachRealName}, '%')
+        </if>
+        order by create_time desc
+    </select>
 </mapper>
