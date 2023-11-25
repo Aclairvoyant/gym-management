@@ -9,7 +9,6 @@ import com.sjdddd.properties.JwtProperties;
 import com.sjdddd.result.Result;
 import com.sjdddd.service.UserService;
 import com.sjdddd.utils.JwtUtil;
-import com.sjdddd.utils.ThreadLocalUtil;
 import com.sjdddd.vo.UserLoginVO;
 import com.sjdddd.vo.UserRegisterVO;
 import io.jsonwebtoken.Claims;

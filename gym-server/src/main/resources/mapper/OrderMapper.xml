@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sjdddd.mapper.OrderMapper">
+    <resultMap id="OrderResultMap" type="com.sjdddd.entity.Order">
+        <id property="bookingId" column="booking_id" />
+        <result property="courseId" column="course_id" />
+        <result property="userId" column="user_id" />
+        <result property="bookingDate" column="booking_date" />
+        <result property="paymentId" column="payment_id" />
+        <result property="amount" column="amount" />
+        <result property="paymentDate" column="payment_date" />
+        <result property="paymentType" column="payment_type" />
+        <result property="paymentStatus" column="payment_status" />
+        <result property="courseName" column="course_name" />
+        <result property="userRealName" column="userRealName" />
+        <result property="coachRealName" column="coachRealName" />
+    </resultMap>
+
+    <!-- OrderMapper.xml -->
+    <select id="selectAllOrders" resultMap="OrderResultMap">
+        SELECT
+        b.booking_id, b.course_id, b.user_id, b.booking_date,
+        p.payment_id, p.amount, p.payment_date, p.payment_type, p.payment_status,
+        c.course_name,
+        u.user_real_name AS userRealName,
+        co.coach_real_name AS coachRealName
+        FROM gym_booking b
+        JOIN gym_payments p ON b.user_id = p.user_id
+        JOIN gym_courses c ON b.course_id = c.course_id
+        JOIN gym_users u ON b.user_id = u.user_id
+        JOIN gym_coachs co ON c.coach_id = co.coach_id
+        ORDER BY b.booking_date DESC
+    </select>
+
+    <!-- 计算总订单数 -->
+    <select id="countTotalOrders" resultType="long">
+        SELECT COUNT(*)
+        FROM gym_booking b
+                 JOIN gym_payments p ON b.user_id = p.user_id
+    </select>
+
+    <!-- 搜索订单 -->
+    <select id="searchOrders" resultMap="OrderResultMap">
+        SELECT
+        b.booking_id, b.course_id, b.user_id, b.booking_date,
+        p.payment_id, p.amount, p.payment_date, p.payment_type, p.payment_status,
+        c.course_name,
+        u.user_real_name AS userRealName,
+        co.coach_real_name AS coachRealName
+        FROM gym_booking b
+        JOIN gym_payments p ON b.user_id = p.user_id
+        JOIN gym_courses c ON b.course_id = c.course_id
+        JOIN gym_users u ON b.user_id = u.user_id
+        JOIN gym_coachs co ON c.coach_id = co.coach_id
+        <if test="courseName != null and courseName != ''">
+            WHERE c.course_name LIKE CONCAT('%', #{courseName}, '%')
+        </if>
+        ORDER BY b.booking_date DESC
+    </select>
+
+    <!-- 计算搜索结果的总数 -->
+    <select id="countSearchedOrders" resultType="long">
+        SELECT COUNT(*)
+        FROM gym_booking b
+        JOIN gym_payments p ON b.user_id = p.user_id
+        JOIN gym_courses c ON b.course_id = c.course_id
+        <if test="courseName != null">
+            WHERE c.course_name LIKE CONCAT('%', #{courseName}, '%')
+        </if>
+    </select>
+
+
+</mapper>

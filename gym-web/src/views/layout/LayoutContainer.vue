@@ -11,7 +11,6 @@
           }}</strong>
         </div>
         <el-dropdown placement="bottom-end" @command="handleCommand">
-          <!-- 展示给用户，默认看到的 -->
           <span class="el-dropdown__box">
             <el-avatar :src="userStore.user.avatar" />
             <el-icon><CaretBottom /></el-icon>
@@ -40,9 +39,6 @@
         <el-aside width="240px">
           <el-row>
             <el-col>
-              <div class="el-aside__logo">
-                <!--                <img src="@/assets/logoc.png" alt="">-->
-              </div>
               <el-menu class="el-menu"
                        background-color="#DCDCDC"
                        :default-active="route.path"
@@ -55,22 +51,20 @@
                   <span>会员管理</span>
                 </el-menu-item>
                 <el-menu-item index="/coach/list">
-                  <el-icon>
-                    <Bell />
-                  </el-icon>
+                  <el-icon><BellFilled /></el-icon>
                   <span>教练管理</span>
                 </el-menu-item>
                 <el-menu-item index="/course/list">
-                  <el-icon>
-                    <document/>
-                  </el-icon>
+                  <el-icon><Platform /></el-icon>
                   <span>课程管理</span>
                 </el-menu-item>
                 <el-menu-item index="/order/list">
-                  <el-icon>
-                    <Shop />
-                  </el-icon>
+                  <el-icon><Shop /></el-icon>
                   <span>订单查询</span>
+                </el-menu-item>
+                <el-menu-item index="/log/list">
+                  <el-icon><List /></el-icon>
+                  <span>日志查询</span>
                 </el-menu-item>
                 <el-sub-menu index="/user">
                   <template #title>

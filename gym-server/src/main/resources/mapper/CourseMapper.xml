@@ -142,7 +142,7 @@
         from gym_courses course
                  left join gym_coachs coach
                            on course.coach_id = coach.coach_id
-        <if test="_parameter != null and _parameter != ''">
+        <if test="course_name != null and course_name != ''">
             where course_name like concat('%', #{courseName, jdbcType=VARCHAR}, '%')
         </if>
         order by course_id

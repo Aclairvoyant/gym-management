@@ -11,10 +11,10 @@ import com.sjdddd.mapper.MemberCardMapper;
 import com.sjdddd.mapper.UserMapper;
 import com.sjdddd.result.PageResult;
 import com.sjdddd.service.MemberService;
-import com.sjdddd.utils.ThreadLocalUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class MemberServiceImpl implements MemberService {
         user.setUserPhone(memberAddDTO.getUserPhone());
         user.setSex(memberAddDTO.getSex());
         user.setUserName(memberAddDTO.getUserRealName());
-        user.setPassword("123456");
+        user.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
         user.setUserType("2");
 
         userMapper.insert(user);

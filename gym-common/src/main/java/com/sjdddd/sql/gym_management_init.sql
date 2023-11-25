@@ -3,13 +3,13 @@ USE `gym-management`;
 DROP TABLE IF EXISTS gym_users;
 CREATE TABLE gym_users (
                            user_id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
-                           user_name VARCHAR(12) NOT NULL COMMENT '用户名',
+                           user_name VARCHAR(12) NOT NULL UNIQUE comment '用户名',
                            password VARCHAR(64) NOT NULL COMMENT '用户密码',
                            user_real_name VARCHAR(10) DEFAULT '' COMMENT '用户姓名',
                            user_phone VARCHAR(11) DEFAULT '' COMMENT '手机号',
                            date_birth DATE COMMENT '用户生日',
                            user_type VARCHAR(1) DEFAULT '1' COMMENT '用户类型',
-                           avatar VARCHAR(100) DEFAULT '' COMMENT '头像地址',
+                           avatar VARCHAR(255) DEFAULT '' COMMENT '头像地址',
                            sex CHAR(1) DEFAULT '0' COMMENT '性别，0 男， 1 女， 2未知',
                            create_time DATETIME COMMENT '创建时间',
                            update_time DATETIME COMMENT '更新时间',
@@ -94,9 +94,9 @@ CREATE TABLE gym_booking (
 
 INSERT INTO gym_booking (user_id, course_id, booking_date)
 VALUES
-    (101, 1, '2023-01-10 09:00:00'),
-    (102, 2, '2023-02-15 17:30:00'),
-    (103, 3, '2023-03-20 13:45:00');
+    (101, 101, '2023-01-10 09:00:00'),
+    (102, 102, '2023-02-15 17:30:00'),
+    (103, 103, '2023-03-20 13:45:00');
 
 
 DROP TABLE IF EXISTS gym_payments;
@@ -106,14 +106,15 @@ CREATE TABLE gym_payments (
                               amount DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '支付金额',
                               payment_date DATETIME COMMENT '支付日期时间',
                               payment_type VARCHAR(20) COMMENT '支付方式',
+                              payment_status CHAR(1) DEFAULT '0' COMMENT '支付状态，0 未支付， 1 已支付',
                               PRIMARY KEY(payment_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '支付表';
 
-INSERT INTO gym_payments (user_id, amount, payment_date, payment_type)
+INSERT INTO gym_payments (user_id, amount, payment_date, payment_type, payment_status)
 VALUES
-    (101, 50.00, '2023-01-05 14:30:00', 'Credit Card'),
-    (102, 25.50, '2023-02-20 10:00:00', 'PayPal'),
-    (103, 100.00, '2023-03-15 18:45:00', 'Bank Transfer');
+    (101, 50.00, '2023-01-05 14:30:00', 'Credit Card', '1'),
+    (102, 25.50, '2023-02-20 10:00:00', 'PayPal', '1'),
+    (103, 100.00, '2023-03-15 18:45:00', 'Bank Transfer', '1');
 
 
 DROP TABLE IF EXISTS gym_logs;

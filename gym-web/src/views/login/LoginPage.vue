@@ -103,30 +103,12 @@ const options = [
   }
 ]
 
-const handleAvatarSuccess = (res, file) => {
-  formModel.value.imageUrl = URL.createObjectURL(file.raw)
-}
-
-const beforeAvatarUpload = (file) => {
-  const isJPG = file.type === 'image/jpeg'
-  const isLt2M = file.size / 1024 / 1024 < 2
-
-  if (!isJPG) {
-    ElMessage.error('上传头像图片只能是 JPG 格式!')
-  }
-  if (!isLt2M) {
-    ElMessage.error('上传头像图片大小不能超过 2MB!')
-  }
-  return isJPG && isLt2M
-}
 
 const register = async () => {
   // 注册成功之前，先进行校验，校验成功 → 请求，校验失败 → 自动提示
   await form.value.validate()
   //formModel.value.datebirth = formModel.value.datebirth.toString();// 将日期转为字符串
-  console.log(formModel.value.datebirth)
-  //formModel.value.avatar = formModel.value.avatar || ''; // 头像地址
-  //console.log(formModel.value.avatar)
+  //console.log(formModel.value.datebirth)
   await userRegisterService(formModel.value)
   ElMessage.success('注册成功')
   isRegister.value = false
@@ -141,7 +123,7 @@ const login = async () => {
   // console.log(res.data.data)
   userStore.setToken(res.data.data)
   ElMessage.success('登录成功')
-  router.push('/')
+  await router.push('/')
 }
 
 // 切换的时候，重置表单内容
@@ -174,20 +156,6 @@ watch(isRegister, () => {
       >
         <el-form-item>
           <h1>注册</h1>
-        </el-form-item>
-        <el-form-item><el-upload
-            class="avatar-uploader"
-            action="localhost:8080/register"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-        >
-          <el-icon><Avatar /></el-icon>
-          <img v-if="formModel.avatar" :src="formModel.avatar" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-
-          <el-text>上传头像</el-text>
-        </el-upload>
         </el-form-item>
 
         <el-form-item prop="userName">
@@ -227,13 +195,12 @@ watch(isRegister, () => {
               placeholder="请输入真实姓名"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="dateBirth">
             <div>
               <el-date-picker
-                  v-model="formModel.datebirth"
+                  v-model="formModel.dateBirth"
                   type="date"
                   placeholder="请选择出生日期"
-                  value-format="YYYY-MM-DD"
               />
             </div>
           <el-select v-model="formModel.sex" class="m-2" placeholder="请选择性别">

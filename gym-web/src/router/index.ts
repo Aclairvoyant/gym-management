@@ -33,6 +33,9 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/user/password', component: () => import('../views/user/UserPassword.vue')
+      },
+      {
+        path: '/log/list', component: () => import('../views/log/LogList.vue')
       }
   ]}
 ]
@@ -46,7 +49,7 @@ router.beforeEach((to, from) => {
 
   const useStore = useUserStore()
 
-  console.log(useStore.token)
+  //console.log(useStore.token)
 
   if (!useStore.token && to.path !== '/login') {
     return '/login'
