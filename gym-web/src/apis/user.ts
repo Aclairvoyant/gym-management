@@ -17,19 +17,21 @@ interface UserLoginParams {
     password: string;
 }
 
-// interface UserInfo {
-//     userName: string,
-//     userRealName?: string,
-//     sex?: string,
-//     userPhone?: number,
-//     avatar?: string
-//
-// }
+interface UserInfo {
+    userName: string,
+    userRealName?: string,
+    sex?: string,
+    userPhone?: string,
+    avatar?: string
+
+}
 
 interface UserUpdateInfoParams {
-    id: number;
-    nickname: string;
-    email: string;
+    userId: string,
+    userRealName: string,
+    userPhone: string,
+    sex: number,
+    dateBirth: Date
 }
 
 interface UserUpdateAvatarParams {
@@ -37,6 +39,7 @@ interface UserUpdateAvatarParams {
 }
 
 interface UserUpdatePasswordParams {
+    userId: string;
     old_pwd: string;
     new_pwd: string;
     re_pwd: string;
@@ -64,13 +67,21 @@ export const userGetInfoService = (): AxiosPromise =>
     request.get('/userInfo');
 
 // 更新用户基本信息
-export const userUpdateInfoService = ({id, nickname, email}: UserUpdateInfoParams): AxiosPromise =>
-    request.put('/userInfo', {id, nickname, email});
+export const userUpdateInfoService = ({userId, userRealName, userPhone, sex, dateBirth}: UserUpdateInfoParams): AxiosPromise =>
+    request.put('/userInfo', {userId, userRealName, userPhone, sex, dateBirth});
 
 // 更新用户头像
-export const userUpdateAvatarService = (avatar: string): AxiosPromise =>
-    request.patch('/update/avatar', {avatar});
+// export const userUpdateAvatarService = (avatar: string): AxiosPromise =>
+//     request.post('/upload/avatar', {avatar});
+// userUpdateAvatarService函数的修改
+export const userUpdateAvatarService = (formData: FormData): AxiosPromise => {
+    return request.post('/upload/avatar', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'  // 确保设置了正确的Content-Type
+        }
+    });
+};
 
 // 更新用户密码
-export const userUpdatePasswordService = ({old_pwd, new_pwd, re_pwd}: UserUpdatePasswordParams): AxiosPromise =>
-    request.patch('/updatepwd', {old_pwd, new_pwd, re_pwd});
+export const userUpdatePasswordService = ({userId, old_pwd, new_pwd, re_pwd}: UserUpdatePasswordParams): AxiosPromise =>
+    request.patch('/updatePwd', {userId, old_pwd, new_pwd, re_pwd});

@@ -27,6 +27,12 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/order/list', component: () => import('../views/order/OrderList.vue')
+      },
+      {
+        path: '/user/avatar', component: () => import('../views/user/UserAvatar.vue')
+      },
+      {
+        path: '/user/password', component: () => import('../views/user/UserPassword.vue')
       }
   ]}
 ]

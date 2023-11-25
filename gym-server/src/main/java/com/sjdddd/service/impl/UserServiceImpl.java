@@ -98,14 +98,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserInfo(String userName) {
-        User user = userMapper.selectByUserName(userName);
+    public User getUserInfo(Object userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
 
-        if (user == null) {
-            // 账号不存在
+        if (user != null) {
+            return user;
+        }else {
+            throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void update(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public User findByUserId(Object userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+
+        if (user != null) {
+            return user;
+        } else {
+            throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public void updateAvatar(Long userId, String filePath) {
+        User user = userMapper.selectByPrimaryKey(userId);
+
+        if (user != null) {
+            user.setAvatar(filePath);
+            userMapper.updateByPrimaryKeySelective(user);
+        } else {
             throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
-        return user;
+        user.setAvatar(filePath);
+
+        userMapper.updateByPrimaryKeySelective(user);
     }
+
 }

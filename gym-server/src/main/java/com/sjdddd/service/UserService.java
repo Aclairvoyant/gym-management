@@ -20,5 +20,12 @@ public interface UserService {
 
     void register(UserRegisterDTO userRegisterDTO);
 
-    User getUserInfo(String userName);
+    User getUserInfo(Object userId);
+
+    void update(User user);
+
+    User findByUserId(Object userId);
+
+    void updateAvatar(Long userId, String filePath);
+
 }

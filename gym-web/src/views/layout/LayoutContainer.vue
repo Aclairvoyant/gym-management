@@ -3,9 +3,38 @@
     <el-container>
       <el-header>
         <div>
-          <!--          <img src="@/assets/default.png" alt="">-->
           <span>健身房会员管理系统</span>
         </div>
+        <div>
+          你好,<strong>{{
+            userStore.user.userRealName
+          }}</strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="handleCommand">
+          <!-- 展示给用户，默认看到的 -->
+          <span class="el-dropdown__box">
+            <el-avatar :src="userStore.user.avatar" />
+            <el-icon><CaretBottom /></el-icon>
+          </span>
+
+          <!-- 折叠的下拉部分 -->
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="profile" :icon="User"
+              >基本资料</el-dropdown-item
+              >
+              <el-dropdown-item command="avatar" :icon="Crop"
+              >更换头像</el-dropdown-item
+              >
+              <el-dropdown-item command="password" :icon="EditPen"
+              >重置密码</el-dropdown-item
+              >
+              <el-dropdown-item command="logout" :icon="SwitchButton"
+              >退出登录</el-dropdown-item
+              >
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </el-header>
       <el-container class="layout-container">
         <el-aside width="240px">
@@ -43,12 +72,24 @@
                   </el-icon>
                   <span>订单查询</span>
                 </el-menu-item>
-                <el-menu-item index="/user/profile">
-                  <el-icon>
-                    <setting/>
-                  </el-icon>
-                  <span>个人中心</span>
-                </el-menu-item>
+                <el-sub-menu index="/user">
+                  <template #title>
+                    <el-icon><UserFilled /></el-icon>
+                    <span>个人中心</span>
+                  </template>
+                  <el-menu-item index="/user/profile">
+                    <el-icon><User /></el-icon>
+                    <span>基本资料</span>
+                  </el-menu-item>
+                  <el-menu-item index="/user/avatar">
+                    <el-icon><Crop /></el-icon>
+                    <span>更换头像</span>
+                  </el-menu-item>
+                  <el-menu-item index="/user/password">
+                    <el-icon><EditPen /></el-icon>
+                    <span>重置密码</span>
+                  </el-menu-item>
+                </el-sub-menu>
               </el-menu>
             </el-col>
           </el-row>
@@ -66,15 +107,36 @@ import {useUserStore} from '@/stores'
 import {onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 import { useRoute } from 'vue-router'
+import {Crop, EditPen, SwitchButton, User} from "@element-plus/icons-vue";
+import {ElMessageBox} from "element-plus";
 
 const route = useRoute()
 
 const userStore = useUserStore()
 const router = useRouter()
 
-// onMounted(() => {
-//   userStore.getUser()
-// })
+onMounted(() => {
+  userStore.getUser()
+})
+
+const handleCommand = async (key) => {
+  if (key === 'logout') {
+    // 退出操作
+    await ElMessageBox.confirm('你确认要进行退出么', '温馨提示', {
+      type: 'warning',
+      confirmButtonText: '确认',
+      cancelButtonText: '取消'
+    })
+
+    // 清除本地的数据 (token + user信息)
+    userStore.removeToken()
+    userStore.setUser({})
+    await router.push('/login')
+  } else {
+    // 跳转操作
+    await router.push(`/user/${key}`)
+  }
+}
 </script>
 
 <style scoped>

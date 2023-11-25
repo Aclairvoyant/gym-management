@@ -21,6 +21,10 @@ public class MessageConstant {
     public static final String USER_NOT_LOGIN = "用户未登录";
 
     public static final String LOGIN_FAILED = "登录失败";
+
     public static final String ACCOUNT_EXIST = "账号已存在";
+
     public static final String UPLOAD_FAILED = "上传失败";
+
+
 }

@@ -7,8 +7,6 @@ export const useUserStore = defineStore('big-user',() => {
 
     const token = ref<string>('')
 
-    const userName = ref<string>('')
-
 
     const setToken = (newToken: string) => {
         token.value = newToken
@@ -33,6 +31,7 @@ export const useUserStore = defineStore('big-user',() => {
         removeToken,
         getUser,
         setUser,
+        user,
     }
 }, {
     persist: true,

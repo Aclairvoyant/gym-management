@@ -1,6 +1,7 @@
 package com.sjdddd.controller;
 
 import com.sjdddd.constant.JwtClaimsConstant;
+import com.sjdddd.constant.MessageConstant;
 import com.sjdddd.dto.UserLoginDTO;
 import com.sjdddd.dto.UserRegisterDTO;
 import com.sjdddd.entity.User;
@@ -11,12 +12,16 @@ import com.sjdddd.utils.JwtUtil;
 import com.sjdddd.utils.ThreadLocalUtil;
 import com.sjdddd.vo.UserLoginVO;
 import com.sjdddd.vo.UserRegisterVO;
+import io.jsonwebtoken.Claims;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +42,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    public static final String USER_TOKEN = "token";
 
     //@CrossOrigin
     @PostMapping("/login")
@@ -75,15 +82,69 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public Result<User> userInfo() {
-        log.info("获取用户信息");
+    public Result<User> userInfo(HttpServletRequest request) {
 
-        Map<String, Object> map = ThreadLocalUtil.get();
+        String token = request.getHeader(jwtProperties.getUserTokenName());
 
-        String username = (String) map.get("userName");
+        log.info("token:{}", token);
 
-        User user = userService.getUserInfo(username);
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+
+        log.info("claims:{}", claims);
+
+        Object userId = claims.get(JwtClaimsConstant.USER_ID);
+
+        log.info("userId:{}", userId);
+
+        User user = userService.getUserInfo(userId);
 
         return Result.success(user);
+    }
+
+    @PutMapping("/userInfo")
+    public Result update(@RequestBody User user) {
+
+        userService.update(user);
+
+        return Result.success();
+    }
+
+    @PatchMapping("/updatePwd")
+    public Result<String> updatePwd(@RequestBody Map<String, String> params,
+                                    @RequestHeader(USER_TOKEN) final String token) {
+
+        final String oldPwd = params.get("old_pwd");
+        final String newPwd = params.get("new_pwd");
+        final String rePwd = params.get("re_pwd");
+        //final String userId = params.get("userId");
+
+        if (!StringUtils.hasLength(oldPwd) || !StringUtils.hasLength(newPwd) || !StringUtils.hasLength(rePwd)) {
+            return Result.error("缺少必要的参数");
+        }
+
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+
+        log.info("claims:{}", claims);
+
+        Object userId = claims.get(JwtClaimsConstant.USER_ID);
+
+        log.info("userId:{}", userId);
+
+        final User user = userService.findByUserId(userId);
+
+        log.info("user:{}", user);
+
+        if (!rePwd.equals(newPwd)) {
+            return Result.error("两次结果不一样");
+        }
+        if (!user.getPassword().equals(DigestUtils.md5DigestAsHex(oldPwd.getBytes()))) {
+            return Result.error(MessageConstant.PASSWORD_ERROR);
+        }
+
+        user.setPassword(DigestUtils.md5DigestAsHex(newPwd.getBytes()));
+
+        userService.update(user);
+
+        return Result.success();
     }
 }

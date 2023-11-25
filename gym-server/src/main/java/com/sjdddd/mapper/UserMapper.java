@@ -20,7 +20,7 @@ public interface UserMapper {
     @AutoFill(value = OperationType.INSERT)
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Long userId);
+    User selectByPrimaryKey(Object userId);
 
     @AutoFill(value = OperationType.UPDATE)
     int updateByPrimaryKeySelective(User record);
@@ -28,5 +28,5 @@ public interface UserMapper {
     @AutoFill(value = OperationType.UPDATE)
     int updateByPrimaryKey(User record);
 
-    User selectByUserName(String username);
+    User selectByUserName(Object username);
 }
