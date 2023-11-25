@@ -1,5 +1,6 @@
 package com.sjdddd.controller;
 
+import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.dto.CoachAddDTO;
 import com.sjdddd.dto.CoachEditDTO;
 import com.sjdddd.dto.MemberAddDTO;
@@ -33,6 +34,7 @@ public class CoachController {
     private CoachService coachService;
 
     @GetMapping("/list")
+    @OperationLog(operDesc = "查询教练列表")
     public Result<PageResult> coachList(
             Integer pageNum,
             Integer pageSize
@@ -45,6 +47,7 @@ public class CoachController {
     }
 
     @PostMapping("/add")
+    @OperationLog(operDesc = "添加教练")
     public Result<CoachAddVO> add(@RequestBody CoachAddDTO coachAddDTO) {
         log.info("添加教练：{}", coachAddDTO);
 
@@ -54,6 +57,7 @@ public class CoachController {
     }
 
     @PutMapping("/edit")
+    @OperationLog(operDesc = "修改教练")
     public Result<CoachEditVO> edit(@RequestBody CoachEditDTO coachEditDTO) {
         log.info("修改教练：{}", coachEditDTO);
 
@@ -63,6 +67,7 @@ public class CoachController {
     }
 
     @DeleteMapping("/delete")
+    @OperationLog(operDesc = "删除教练")
     public Result<CoachEditVO> delete(@Param("coachId") Long coachId) {
         log.info("删除教练：{}", coachId);
 
@@ -72,6 +77,7 @@ public class CoachController {
     }
 
     @GetMapping("/search")
+    @OperationLog(operDesc = "搜索教练")
     public Result<PageResult> searchMemberList(
             Integer pageNum,
             Integer pageSize,

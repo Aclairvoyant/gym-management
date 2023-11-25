@@ -1,5 +1,6 @@
 package com.sjdddd.controller;
 
+import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.constant.JwtClaimsConstant;
 import com.sjdddd.constant.MessageConstant;
 import com.sjdddd.dto.UserLoginDTO;
@@ -47,6 +48,7 @@ public class UserController {
     //@CrossOrigin
     @PostMapping("/login")
     @Operation(summary = "用户登录")
+    @OperationLog(operDesc = "用户登录")
     public Result login(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("用户登录：{}", userLoginDTO.getUserName());
 
@@ -72,6 +74,7 @@ public class UserController {
 
     //@CrossOrigin
     @PostMapping("/register")
+    @OperationLog(operDesc = "用户注册")
     public Result register(@RequestBody UserRegisterDTO userRegisterDTO) {
         log.info("用户注册：{}", userRegisterDTO.getUserName());
 
@@ -81,6 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
+    @OperationLog(operDesc = "获取用户信息")
     public Result<User> userInfo(HttpServletRequest request) {
 
         String token = request.getHeader(jwtProperties.getUserTokenName());
@@ -101,6 +105,7 @@ public class UserController {
     }
 
     @PutMapping("/userInfo")
+    @OperationLog(operDesc = "修改用户信息")
     public Result update(@RequestBody User user) {
 
         userService.update(user);
@@ -109,6 +114,7 @@ public class UserController {
     }
 
     @PatchMapping("/updatePwd")
+    @OperationLog(operDesc = "修改密码")
     public Result<String> updatePwd(@RequestBody Map<String, String> params,
                                     @RequestHeader(USER_TOKEN) final String token) {
 

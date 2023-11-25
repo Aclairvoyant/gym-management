@@ -126,6 +126,23 @@ CREATE TABLE gym_logs (
                           PRIMARY KEY(log_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '日志表';
 
+CREATE TABLE gym_logs (
+                          log_id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
+                          user_id BIGINT(20) COMMENT '用户ID',
+                          action_type VARCHAR(255) COMMENT '操作类型',
+                          action_date DATETIME COMMENT '操作时间',
+                          request_method VARCHAR(255) COMMENT '请求方法',
+                          request_data TEXT COMMENT '请求参数',
+                          response_data TEXT COMMENT '返回结果',
+                          exception_name VARCHAR(255) COMMENT '异常名称',
+                          exception_message TEXT COMMENT '异常信息',
+                          user_name VARCHAR(255) COMMENT '请求用户名称',
+                          request_uri VARCHAR(255) COMMENT '请求URI',
+                          request_ip VARCHAR(255) COMMENT '请求IP',
+                          PRIMARY KEY(log_id)
+) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '日志表';
+
+
 INSERT INTO gym_logs (user_id, action_type, action_date)
 VALUES
     (101, 'Login', '2023-01-10 09:30:00'),

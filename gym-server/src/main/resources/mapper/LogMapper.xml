@@ -1,87 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sjdddd.mapper.LogMapper">
-    <resultMap id="BaseResultMap" type="com.sjdddd.entity.Log">
-        <!--@mbg.generated-->
-        <!--@Table gym_logs-->
-        <id column="log_id" jdbcType="BIGINT" property="logId"/>
-        <result column="user_id" jdbcType="BIGINT" property="userId"/>
-        <result column="action_type" jdbcType="VARCHAR" property="actionType"/>
-        <result column="action_date" jdbcType="TIMESTAMP" property="actionDate"/>
-    </resultMap>
-    <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        log_id, user_id, action_type, action_date
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List"/>
-        from gym_logs
-        where log_id = #{logId,jdbcType=BIGINT}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from gym_logs
-        where log_id = #{logId,jdbcType=BIGINT}
-    </delete>
-    <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log"
-            useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into gym_logs (user_id, action_type, action_date
-        )
-        values (#{userId,jdbcType=BIGINT}, #{actionType,jdbcType=VARCHAR}, #{actionDate,jdbcType=TIMESTAMP}
-        )
-    </insert>
-    <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log"
-            useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into gym_logs
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="actionType != null">
-                action_type,
-            </if>
-            <if test="actionDate != null">
-                action_date,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=BIGINT},
-            </if>
-            <if test="actionType != null">
-                #{actionType,jdbcType=VARCHAR},
-            </if>
-            <if test="actionDate != null">
-                #{actionDate,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Log">
-        <!--@mbg.generated-->
-        update gym_logs
-        <set>
-            <if test="userId != null">
-                user_id = #{userId,jdbcType=BIGINT},
-            </if>
-            <if test="actionType != null">
-                action_type = #{actionType,jdbcType=VARCHAR},
-            </if>
-            <if test="actionDate != null">
-                action_date = #{actionDate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where log_id = #{logId,jdbcType=BIGINT}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Log">
-        <!--@mbg.generated-->
-        update gym_logs
-        set user_id = #{userId,jdbcType=BIGINT},
+  <resultMap id="BaseResultMap" type="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    <!--@Table gym_logs-->
+    <id column="log_id" jdbcType="BIGINT" property="logId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="action_type" jdbcType="VARCHAR" property="actionType" />
+    <result column="action_date" jdbcType="TIMESTAMP" property="actionDate" />
+    <result column="request_method" jdbcType="VARCHAR" property="requestMethod" />
+    <result column="request_data" jdbcType="LONGVARCHAR" property="requestData" />
+    <result column="response_data" jdbcType="LONGVARCHAR" property="responseData" />
+    <result column="exception_name" jdbcType="VARCHAR" property="exceptionName" />
+    <result column="exception_message" jdbcType="LONGVARCHAR" property="exceptionMessage" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="request_uri" jdbcType="VARCHAR" property="requestUri" />
+    <result column="request_ip" jdbcType="VARCHAR" property="requestIp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    log_id, user_id, action_type, action_date, request_method, request_data, response_data,
+    exception_name, exception_message, user_name, request_uri, request_ip
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from gym_logs
+    where log_id = #{logId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from gym_logs
+    where log_id = #{logId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_logs (user_id, action_type, action_date,
+      request_method, request_data, response_data,
+      exception_name, exception_message, user_name,
+      request_uri, request_ip)
+    values (#{userId,jdbcType=BIGINT}, #{actionType,jdbcType=VARCHAR}, #{actionDate,jdbcType=TIMESTAMP},
+      #{requestMethod,jdbcType=VARCHAR}, #{requestData,jdbcType=LONGVARCHAR}, #{responseData,jdbcType=LONGVARCHAR},
+      #{exceptionName,jdbcType=VARCHAR}, #{exceptionMessage,jdbcType=LONGVARCHAR}, #{userName,jdbcType=VARCHAR},
+      #{requestUri,jdbcType=VARCHAR}, #{requestIp,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="log_id" keyProperty="logId" parameterType="com.sjdddd.entity.Log" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into gym_logs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="actionType != null">
+        action_type,
+      </if>
+      <if test="actionDate != null">
+        action_date,
+      </if>
+      <if test="requestMethod != null">
+        request_method,
+      </if>
+      <if test="requestData != null">
+        request_data,
+      </if>
+      <if test="responseData != null">
+        response_data,
+      </if>
+      <if test="exceptionName != null">
+        exception_name,
+      </if>
+      <if test="exceptionMessage != null">
+        exception_message,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="requestUri != null">
+        request_uri,
+      </if>
+      <if test="requestIp != null">
+        request_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="actionType != null">
+        #{actionType,jdbcType=VARCHAR},
+      </if>
+      <if test="actionDate != null">
+        #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestMethod != null">
+        #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requestData != null">
+        #{requestData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="responseData != null">
+        #{responseData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="exceptionName != null">
+        #{exceptionName,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionMessage != null">
+        #{exceptionMessage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUri != null">
+        #{requestUri,jdbcType=VARCHAR},
+      </if>
+      <if test="requestIp != null">
+        #{requestIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    update gym_logs
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="actionType != null">
         action_type = #{actionType,jdbcType=VARCHAR},
-        action_date = #{actionDate,jdbcType=TIMESTAMP}
-        where log_id = #{logId,jdbcType=BIGINT}
-    </update>
+      </if>
+      <if test="actionDate != null">
+        action_date = #{actionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestMethod != null">
+        request_method = #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requestData != null">
+        request_data = #{requestData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="responseData != null">
+        response_data = #{responseData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="exceptionName != null">
+        exception_name = #{exceptionName,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionMessage != null">
+        exception_message = #{exceptionMessage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUri != null">
+        request_uri = #{requestUri,jdbcType=VARCHAR},
+      </if>
+      <if test="requestIp != null">
+        request_ip = #{requestIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sjdddd.entity.Log">
+    <!--@mbg.generated-->
+    update gym_logs
+    set user_id = #{userId,jdbcType=BIGINT},
+      action_type = #{actionType,jdbcType=VARCHAR},
+      action_date = #{actionDate,jdbcType=TIMESTAMP},
+      request_method = #{requestMethod,jdbcType=VARCHAR},
+      request_data = #{requestData,jdbcType=LONGVARCHAR},
+      response_data = #{responseData,jdbcType=LONGVARCHAR},
+      exception_name = #{exceptionName,jdbcType=VARCHAR},
+      exception_message = #{exceptionMessage,jdbcType=LONGVARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      request_uri = #{requestUri,jdbcType=VARCHAR},
+      request_ip = #{requestIp,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAll" resultType="com.sjdddd.entity.Log">
+    select * from gym_logs
+    order by action_date desc
+  </select>
+
+  <select id="searchLogs" resultMap="BaseResultMap">
+    SELECT *
+    FROM gym_logs l
+    <where>
+      <if test="userId != null and userId != ''">
+        l.user_id LIKE CONCAT('%', #{userId}, '%')
+      </if>
+      <if test="actionType != null and actionType != ''">
+        OR l.action_type LIKE CONCAT('%', #{actionType}, '%')
+      </if>
+      <if test="userName != null">
+        OR l.user_name LIKE CONCAT('%', #{userName}, '%')
+      </if>
+    </where>
+    ORDER BY l.action_date DESC
+  </select>
 </mapper>

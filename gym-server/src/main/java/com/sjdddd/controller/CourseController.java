@@ -1,5 +1,6 @@
 package com.sjdddd.controller;
 
+import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.dto.CoachAddDTO;
 import com.sjdddd.dto.CoachEditDTO;
 import com.sjdddd.dto.CourseAddDTO;
@@ -35,6 +36,7 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping("/list")
+    @OperationLog(operDesc = "查询课程列表")
     public Result<PageResult> coachList(
             Integer pageNum,
             Integer pageSize
@@ -47,6 +49,7 @@ public class CourseController {
     }
 
     @PostMapping("/add")
+    @OperationLog(operDesc = "添加课程")
     public Result<CourseAddVO> add(@RequestBody CourseAddDTO courseAddDTO) {
         log.info("添加课程：{}", courseAddDTO);
 
@@ -56,12 +59,14 @@ public class CourseController {
     }
 
     @GetMapping("/getCoachList")
+    @OperationLog(operDesc = "查询教练列表")
     public Result<List<Coach>> getCoachList() {
         List<Coach> coach = courseService.getCoachList();
         return Result.success(coach);
     }
 
     @PutMapping("/edit")
+    @OperationLog(operDesc = "修改课程")
     public Result<CourseEditVO> edit(@RequestBody CourseEditDTO courseEditDTO) {
         log.info("修改课程：{}", courseEditDTO);
 
@@ -71,6 +76,7 @@ public class CourseController {
     }
 
     @DeleteMapping("/delete")
+    @OperationLog(operDesc = "删除课程")
     public Result<CourseEditVO> delete(@Param("courseId") Long courseId) {
         log.info("删除课程：{}", courseId);
 
@@ -80,6 +86,7 @@ public class CourseController {
     }
 
     @GetMapping("/search")
+    @OperationLog(operDesc = "搜索课程")
     public Result<PageResult> searchCourseList(
             Integer pageNum,
             Integer pageSize,

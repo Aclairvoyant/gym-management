@@ -1,5 +1,6 @@
 package com.sjdddd.controller;
 
+import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.dto.MemberAddDTO;
 import com.sjdddd.dto.MemberEditDTO;
 import com.sjdddd.entity.MemberCard;
@@ -31,6 +32,7 @@ public class MemberController {
     private MemberService memberService;
 
     @GetMapping("/list")
+    @OperationLog(operDesc = "查询会员列表")
     public Result<PageResult> memberList(
             Integer pageNum,
             Integer pageSize
@@ -51,6 +53,7 @@ public class MemberController {
 //    }
 
     @PostMapping("/add")
+    @OperationLog(operDesc = "添加会员")
     public Result<MemberAddVO> add(@RequestBody MemberAddDTO memberAddDTO) {
         log.info("添加会员：{}", memberAddDTO);
 
@@ -60,6 +63,7 @@ public class MemberController {
     }
 
     @PutMapping("/edit")
+    @OperationLog(operDesc = "修改会员")
     public Result<MemberEditVO> edit(@RequestBody MemberEditDTO memberEditDTO) {
         log.info("修改会员：{}", memberEditDTO);
 
@@ -69,6 +73,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/delete")
+    @OperationLog(operDesc = "删除会员")
     public Result<MemberEditVO> delete(@Param("memberCardID") Long memberCardId) {
         log.info("删除会员：{}", memberCardId);
 
@@ -78,6 +83,7 @@ public class MemberController {
     }
 
     @GetMapping("/search")
+    @OperationLog(operDesc = "搜索会员")
     public Result<PageResult> searchMemberList(
             Integer pageNum,
             Integer pageSize,
