@@ -84,4 +84,9 @@
         booking_date = #{bookingDate,jdbcType=TIMESTAMP}
         where booking_id = #{bookingId,jdbcType=BIGINT}
     </update>
+
+    <delete id="deleteByCourseId">
+        delete from gym_booking
+        where course_id = #{courseId,jdbcType=BIGINT}
+    </delete>
 </mapper>

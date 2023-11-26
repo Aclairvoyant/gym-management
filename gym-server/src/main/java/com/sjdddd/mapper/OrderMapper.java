@@ -1,5 +1,6 @@
 package com.sjdddd.mapper;
 
+import com.sjdddd.entity.Bill;
 import com.sjdddd.entity.Order;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,4 +23,5 @@ public interface OrderMapper {
     Long countSearchedOrders(String courseName);
 
 
+    List<Bill> selectByUserIdAllOrders(Object userId);
 }

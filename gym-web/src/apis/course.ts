@@ -34,6 +34,10 @@ interface CourseDeleteParams {
     courseId: string
 }
 
+interface CoursePaymentParams {
+    courseId: string
+}
+
 
 export const getCourseListService = ({ pageNum, pageSize }: CourseList) => {
     console.log(pageNum, pageSize)
@@ -76,3 +80,12 @@ export const searchCourseService = ({pageNum, pageSize, courseName}: CourseList)
 export const getCoachListService = () => {
     return request.get('/course/getCoachList')
 }
+
+export const payCourseFeeService = (courseId: CoursePaymentParams) => {
+    return request.post(`/member/payCourseFee?courseId=${courseId}`);
+};
+
+export const refundCourseService = (courseId: CoursePaymentParams) => {
+    return request.post(`/member/unenroll?courseId=${courseId}`);
+};
+

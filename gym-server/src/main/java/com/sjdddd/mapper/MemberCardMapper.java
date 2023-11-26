@@ -6,6 +6,7 @@ import com.sjdddd.entity.MemberCard;
 import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -36,4 +37,8 @@ public interface MemberCardMapper {
     //List<MemberCard> selectAll2();
 
     List<MemberCard> selectByUserRealName(String userRealName);
+
+    BigDecimal selectByUserId(Object userId);
+
+    void updateBalanceByUserId(Object userId, BigDecimal newBalance);
 }

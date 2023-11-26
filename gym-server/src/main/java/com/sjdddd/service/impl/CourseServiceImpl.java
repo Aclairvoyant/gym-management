@@ -6,6 +6,7 @@ import com.sjdddd.dto.CourseAddDTO;
 import com.sjdddd.dto.CourseEditDTO;
 import com.sjdddd.entity.Coach;
 import com.sjdddd.entity.Course;
+import com.sjdddd.mapper.BookingMapper;
 import com.sjdddd.mapper.CoachMapper;
 import com.sjdddd.mapper.CourseMapper;
 import com.sjdddd.result.PageResult;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -29,6 +31,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CoachMapper coachMapper;
+
+    @Autowired
+    private BookingMapper bookingMapper;
 
     @Override
     public PageResult list(Integer pageNum, Integer pageSize) {
@@ -126,5 +131,15 @@ public class CourseServiceImpl implements CourseService {
         long total = page.getTotal();
 
         return new PageResult(total, list);
+    }
+
+    @Override
+    public BigDecimal getCoursePrice(Long courseId) {
+        return courseMapper.selectCoursePrice(courseId);
+    }
+
+    @Override
+    public boolean unenrollCourse(Object userId, Long courseId) {
+        return bookingMapper.deleteByCourseId(courseId);
     }
 }

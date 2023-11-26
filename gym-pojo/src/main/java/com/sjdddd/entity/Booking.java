@@ -30,7 +30,7 @@ public class Booking {
     * 用户id
     */
     //@ApiModelProperty(value="用户id")
-    private Long userId;
+    private Object userId;
 
     /**
     * 课程id

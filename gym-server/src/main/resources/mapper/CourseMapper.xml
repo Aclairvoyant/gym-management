@@ -147,4 +147,10 @@
         </if>
         order by course_id
     </select>
+
+    <select id="selectCoursePrice" resultType="java.math.BigDecimal">
+        select course_fee
+        from gym_courses
+        where course_id = #{courseId, jdbcType=BIGINT}
+    </select>
 </mapper>

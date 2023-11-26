@@ -26,4 +26,6 @@ public interface MemberService {
     void delete(Long memberCardId);
 
     PageResult searchList(Integer pageNum, Integer pageSize, String keyword);
+
+    BigDecimal getMemberFee(Object userId);
 }

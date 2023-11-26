@@ -1,6 +1,8 @@
 package com.sjdddd.mapper;
 
+import com.sjdddd.annotation.AutoFill;
 import com.sjdddd.entity.Payment;
+import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PaymentMapper {
     int deleteByPrimaryKey(Long paymentId);
 
+    //@AutoFill(OperationType.INSERT)
     int insert(Payment record);
 
     int insertSelective(Payment record);

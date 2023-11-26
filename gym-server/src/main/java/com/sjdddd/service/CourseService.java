@@ -6,6 +6,7 @@ import com.sjdddd.entity.Coach;
 import com.sjdddd.entity.Course;
 import com.sjdddd.result.PageResult;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -26,4 +27,8 @@ public interface CourseService {
     Course delete(Long courseId);
 
     PageResult searchList(Integer pageNum, Integer pageSize, String courseName);
+
+    BigDecimal getCoursePrice(Long courseId);
+
+    boolean unenrollCourse(Object userId, Long courseId);
 }

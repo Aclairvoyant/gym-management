@@ -7,6 +7,8 @@ export const useUserStore = defineStore('big-user',() => {
 
     const token = ref<string>('')
 
+    const userType = ref<string>('')
+
 
     const setToken = (newToken: string) => {
         token.value = newToken
@@ -16,14 +18,20 @@ export const useUserStore = defineStore('big-user',() => {
         token.value = ''
     }
 
+    const setUserType = (newUserType: string) => {
+        userType.value = newUserType
+    }
+
     const user = ref({})
     const getUser = async () => {
         const res = await userGetInfoService() // 请求获取数据
         user.value = res.data.data
+        userType.value = res.data.data.userType
     }
     const setUser = (obj: any) => {
         user.value = obj
     }
+
 
     return {
         token,
@@ -32,6 +40,8 @@ export const useUserStore = defineStore('big-user',() => {
         getUser,
         setUser,
         user,
+        userType,
+        setUserType
     }
 }, {
     persist: true,

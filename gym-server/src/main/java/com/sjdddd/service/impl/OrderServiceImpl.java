@@ -2,6 +2,7 @@ package com.sjdddd.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sjdddd.entity.Bill;
 import com.sjdddd.entity.Course;
 import com.sjdddd.entity.Order;
 import com.sjdddd.mapper.BookingMapper;
@@ -36,6 +37,21 @@ public class OrderServiceImpl implements OrderService {
         PageHelper.startPage(pageNum, pageSize);
 
         List<Order> list = orderMapper.selectAllOrders();
+
+        PageInfo page = new PageInfo(list);
+
+        long total = page.getTotal();
+
+
+        return new PageResult(total, list);
+
+    }
+
+    @Override
+    public PageResult listMemberBills(Integer pageNum, Integer pageSize, Object userId) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<Bill> list = orderMapper.selectByUserIdAllOrders(userId);
 
         PageInfo page = new PageInfo(list);
 

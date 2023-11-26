@@ -15,4 +15,6 @@ public interface OrderService {
     PageResult list(Integer pageNum, Integer pageSize);
 
     PageResult searchList(Integer pageNum, Integer pageSize, String courseName);
+
+    PageResult listMemberBills(Integer pageNum, Integer pageSize, Object userId);
 }

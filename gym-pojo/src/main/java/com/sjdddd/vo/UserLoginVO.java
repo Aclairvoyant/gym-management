@@ -17,11 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLoginVO implements java.io.Serializable{
 
-    private Long id;
-
-    private String userName;
-
-    private String password;
+    private String userType;
 
     private String token;
 }

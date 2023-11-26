@@ -6,6 +6,7 @@ import com.sjdddd.entity.Course;
 import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -34,4 +35,6 @@ public interface CourseMapper {
     List<Course> selectAll();
 
     List<Course> selectByCourseName(String courseName);
+
+    BigDecimal selectCoursePrice(Long courseId);
 }

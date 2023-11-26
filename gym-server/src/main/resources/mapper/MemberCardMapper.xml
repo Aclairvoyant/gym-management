@@ -163,6 +163,18 @@
         order by mc.create_time desc
     </select>
 
+    <select id="selectByUserId" resultType="java.math.BigDecimal">
+        select member_fee
+        from gym_member_cards
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateBalanceByUserId">
+        update gym_member_cards
+        set member_fee = #{newBalance,jdbcType=DECIMAL}
+        where user_id = #{userId,jdbcType=BIGINT}
+    </update>
+
     <!--  <select id="selectAll2" resultMap="BaseResultMap">-->
     <!--    select *-->
     <!--    from gym_member_cards mc-->

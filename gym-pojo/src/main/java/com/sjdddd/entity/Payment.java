@@ -32,7 +32,7 @@ public class Payment {
     * 用户id
     */
     //@ApiModelProperty(value="用户id")
-    private Long userId;
+    private Object userId;
 
     /**
     * 支付金额
@@ -52,4 +52,9 @@ public class Payment {
     //@ApiModelProperty(value="支付方式")
     private String paymentType;
 
+    /**
+     * 支付状态
+     */
+    //@ApiModelProperty(value="支付状态")
+    private String paymentStatus;
 }

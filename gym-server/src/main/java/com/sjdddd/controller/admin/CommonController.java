@@ -1,4 +1,4 @@
-package com.sjdddd.controller;
+package com.sjdddd.controller.admin;
 
 import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.constant.MessageConstant;

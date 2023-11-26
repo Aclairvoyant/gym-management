@@ -1,6 +1,7 @@
 import {AxiosPromise} from 'axios';
 import request from '@/utils/request';
 
+
 interface UserRegisterParams {
     userName: string;
     password: string;
@@ -71,13 +72,10 @@ export const userUpdateInfoService = ({userId, userRealName, userPhone, sex, dat
     request.put('/userInfo', {userId, userRealName, userPhone, sex, dateBirth});
 
 // 更新用户头像
-// export const userUpdateAvatarService = (avatar: string): AxiosPromise =>
-//     request.post('/upload/avatar', {avatar});
-// userUpdateAvatarService函数的修改
 export const userUpdateAvatarService = (formData: FormData): AxiosPromise => {
     return request.post('/upload/avatar', formData, {
         headers: {
-            'Content-Type': 'multipart/form-data'  // 确保设置了正确的Content-Type
+            'Content-Type': 'multipart/form-data'
         }
     });
 };
@@ -85,3 +83,7 @@ export const userUpdateAvatarService = (formData: FormData): AxiosPromise => {
 // 更新用户密码
 export const userUpdatePasswordService = ({userId, old_pwd, new_pwd, re_pwd}: UserUpdatePasswordParams): AxiosPromise =>
     request.patch('/updatePwd', {userId, old_pwd, new_pwd, re_pwd});
+
+// 获取用户余额
+export const userGetBalanceService = (): AxiosPromise =>
+    request.get('/member/balance');

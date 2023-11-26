@@ -28,7 +28,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="amount" label="支付金额" width="150"></el-table-column>
+      <el-table-column prop="amount" label="金额" width="150"></el-table-column>
 
       <el-table-column prop="bookingDate" label="预定时间" width="180">
         <template #default="{ row }">
@@ -82,11 +82,12 @@ const language = ref(zhCn); // 定义语言
 const loading = ref(false); // 控制加载状态的显示
 
 const statusText = (statusCode) => {
-  const genders = {
+  const status = {
     '0': '未支付',
-    '1': '已支付'
+    '1': '已支付',
+    '2': '已退款'
   };
-  return genders[statusCode] || '未知';
+  return status[statusCode] || '未知';
 };
 
 // 分页数据

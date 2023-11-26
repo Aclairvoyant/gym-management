@@ -30,9 +30,9 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into gym_payments (user_id, amount, payment_date,
-        payment_type)
+        payment_type, payment_status)
         values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{paymentDate,jdbcType=TIMESTAMP},
-        #{paymentType,jdbcType=VARCHAR})
+        #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=CHAR})
     </insert>
     <insert id="insertSelective" keyColumn="payment_id" keyProperty="paymentId"
             parameterType="com.sjdddd.entity.Payment" useGeneratedKeys="true">

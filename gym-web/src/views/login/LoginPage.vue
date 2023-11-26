@@ -114,17 +114,54 @@ const register = async () => {
   isRegister.value = false
 }
 
-const userStore = useUserStore()
-const router = useRouter()
+// const userStore = useUserStore()
+// const router = useRouter()
+// const login = async () => {
+//   await form.value.validate()
+//   const res = await userLoginService(formModel.value)
+//   // console.log(res.data.token)
+//   // console.log(res.data.data)
+//   userStore.setToken(res.data.data)
+//   ElMessage.success('登录成功')
+//   await router.push('/')
+// }
+//
+// // 登录成功后的处理
+// login().then(response => {
+//   const userType = response.data.data.userType;
+//   useUserStore().setUserType(userType); // 存储用户类型
+// });
+
+const userStore = useUserStore();
+const router = useRouter();
+
 const login = async () => {
-  await form.value.validate()
-  const res = await userLoginService(formModel.value)
-  // console.log(res.data.token)
-  // console.log(res.data.data)
-  userStore.setToken(res.data.data)
-  ElMessage.success('登录成功')
-  await router.push('/')
+  try {
+    await form.value.validate();
+    const res = await userLoginService(formModel.value);
+    console.log(res)
+
+    if (res.data && res.data.data) {
+      const { token, userType } = res.data.data;
+
+      console.log(res.data.data)
+
+      userStore.setToken(token);
+      userStore.setUserType(userType);
+
+      ElMessage.success('登录成功');
+
+      console.log(token)
+      console.log(userType)
+
+      await router.push(userType === '1' ? '/adminDashboard' : '/memberDashboard');
+    }
+  } catch (error) {
+    console.error("登录失败:", error);
+    ElMessage.error('登录失败');
+  }
 }
+
 
 // 切换的时候，重置表单内容
 watch(isRegister, () => {

@@ -1,6 +1,8 @@
 package com.sjdddd.mapper;
 
+import com.sjdddd.annotation.AutoFill;
 import com.sjdddd.entity.Booking;
+import com.sjdddd.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface BookingMapper {
     int deleteByPrimaryKey(Long bookingId);
 
+    //@AutoFill(OperationType.INSERT)
     int insert(Booking record);
 
     int insertSelective(Booking record);
@@ -21,4 +24,6 @@ public interface BookingMapper {
     int updateByPrimaryKeySelective(Booking record);
 
     int updateByPrimaryKey(Booking record);
+
+    boolean deleteByCourseId(Long courseId);
 }

@@ -127,4 +127,9 @@ public class MemberServiceImpl implements MemberService {
 
         return new PageResult(total, list);
     }
+
+    @Override
+    public BigDecimal getMemberFee(Object userId) {
+        return memberCardMapper.selectByUserId(userId);
+    }
 }

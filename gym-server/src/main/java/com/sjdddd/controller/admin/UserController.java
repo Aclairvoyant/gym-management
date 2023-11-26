@@ -1,4 +1,4 @@
-package com.sjdddd.controller;
+package com.sjdddd.controller.admin;
 
 import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.constant.JwtClaimsConstant;
@@ -49,7 +49,7 @@ public class UserController {
     @PostMapping("/login")
     @Operation(summary = "用户登录")
     @OperationLog(operDesc = "用户登录")
-    public Result login(@RequestBody UserLoginDTO userLoginDTO) {
+    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("用户登录：{}", userLoginDTO.getUserName());
 
         User user = userService.login(userLoginDTO);
@@ -62,13 +62,12 @@ public class UserController {
                 jwtProperties.getUserTtl(),
                 claims);
 
-//        UserLoginVO userLoginVO = UserLoginVO.builder()
-//                .id(user.getUserId())
-//                .userName(user.getUserName())
-//                .token(token)
-//                .build();
+        UserLoginVO userLoginVO = UserLoginVO.builder()
+                .userType(user.getUserType())
+                .token(token)
+                .build();
 
-        return Result.success(token);
+        return Result.success(userLoginVO);
 
     }
 
