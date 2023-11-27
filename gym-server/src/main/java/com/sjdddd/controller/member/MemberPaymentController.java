@@ -92,7 +92,7 @@ public class MemberPaymentController {
 
 
         // 实现支付逻辑
-        // 这可能包括检查用户余额、减少用户余额、创建支付记录等
+        // 包括检查用户余额、减少用户余额、创建支付记录等
         boolean success = paymentService.processPayment(userId, courseId);
 
         if (success) {

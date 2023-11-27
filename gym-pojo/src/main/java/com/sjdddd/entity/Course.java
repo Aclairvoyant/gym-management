@@ -77,4 +77,10 @@ public class Course {
     //@ApiModelProperty(value="更新时间")
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    /**
+     * 课程状态
+     */
+    //@ApiModelProperty(value="课程状态")
+    private String isEnrolled;
 }

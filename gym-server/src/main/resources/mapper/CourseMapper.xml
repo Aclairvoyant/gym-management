@@ -10,6 +10,7 @@
         <result column="schedule_start" jdbcType="TIMESTAMP" property="scheduleStart"/>
         <result column="schedule_end" jdbcType="TIMESTAMP" property="scheduleEnd"/>
         <result column="course_fee" jdbcType="DECIMAL" property="courseFee"/>
+        <result column="isEnrolled" jdbcType="CHAR" property="isEnrolled"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
@@ -153,4 +154,28 @@
         from gym_courses
         where course_id = #{courseId, jdbcType=BIGINT}
     </select>
+
+    <select id="selectCoursePrice" resultType="java.math.BigDecimal">
+        select course_fee
+        from gym_courses
+        where course_id = #{courseId, jdbcType=BIGINT}
+    </select>
+
+    <update id="updateCourseStatus">
+        update gym_courses
+        set isEnrolled = 1
+        where course_id = #{courseId, jdbcType=BIGINT}
+    </update>
+
+    <select id="selectCourseStatus" resultType="java.lang.String">
+        select isEnrolled
+        from gym_courses
+        where course_id = #{courseId, jdbcType=BIGINT}
+    </select>
+
+    <update id="updateCourseStatusNo">
+        update gym_courses
+        set isEnrolled = 0
+        where course_id = #{courseId, jdbcType=BIGINT}
+    </update>
 </mapper>

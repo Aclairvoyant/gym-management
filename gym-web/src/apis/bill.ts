@@ -15,3 +15,7 @@ export const getBillListService = ({pageNum, pageSize}: BillList) => {
         }
     });
 };
+
+export const rechargeService = () => {
+    return request.post('/member/bill/recharge');
+}

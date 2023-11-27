@@ -140,6 +140,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public boolean unenrollCourse(Object userId, Long courseId) {
+        courseMapper.updateCourseStatusNo(courseId);
+
         return bookingMapper.deleteByCourseId(courseId);
     }
 }

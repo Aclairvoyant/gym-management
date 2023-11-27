@@ -39,20 +39,23 @@
               type="primary"
               size="mini"
               @click="handleEnroll(row)"
-              :disabled="row.isEnrolled"
-          >
-            {{ row.isEnrolled ? '已报名' : '报名' }}
-          </el-button>
+              v-if="row.isEnrolled === '0'"
+          >报名</el-button>
+          <el-button
+              type="primary"
+              size="mini"
+              disabled
+              v-if="row.isEnrolled === '1'"
+          >已报名</el-button>
           <el-button
               type="danger"
               size="mini"
               @click="handleRefund(row)"
-              :disabled="row.isEnrolled"
-          >
-            退课
-          </el-button>
+              :disabled="row.isEnrolled === '0'"
+          >退课</el-button>
         </template>
       </el-table-column>
+
 
       <template #empty>
         <el-empty description="没有数据"/>
@@ -98,7 +101,7 @@ import router from "@/router";
 
 const route = useRoute()
 
-const courses = ref([]); // 定义 coachs
+const courses = ref([]); // 定义
 const language = ref(zhCn); // 定义语言
 const loading = ref(false); // 控制加载状态的显示
 
@@ -238,6 +241,9 @@ const handleEnroll = async (courses) => {
   } catch (error) {
     console.error('报名失败:', error);
     ElMessage.error('报名失败');
+  } finally {
+    // 无论报名成功还是失败，都要重新获取课程列表
+    await fetchCourses();
   }
 };
 
@@ -262,9 +268,11 @@ const handleRefund = async (course) => {
   } catch (error) {
     console.error('退课失败:', error);
     ElMessage.error('退课失败');
+  } finally {
+    // 无论退课成功还是失败，都要重新获取课程列表
+    await fetchCourses();
   }
 };
-
 
 
 </script>

@@ -3,6 +3,9 @@
     <template #header>
       <div class="header">
         <h2>会员账单</h2>
+        <div>
+          <el-button type="primary" @click="recharge">充值余额</el-button>
+        </div>
       </div>
     </template>
 
@@ -37,13 +40,29 @@
       </el-config-provider>
     </div>
   </el-card>
+
+  <!-- 充值对话框 -->
+  <el-dialog title="充值" v-model="rechargeDialogVisible">
+    <el-form :model="rechargeForm">
+      <el-form-item label="充值金额">
+        <el-input v-model="rechargeForm.amount" placeholder="请输入充值金额"></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="rechargeDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleRecharge">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import {fetchBills, getBillListService} from '@/apis/bill'; // 获取账单数据
+import {fetchBills, getBillListService, rechargeService} from '@/apis/bill'; // 获取账单数据
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import {getCourseListService} from "@/apis/course";
+import {ElMessage} from "element-plus";
 
 const language = ref(zhCn); // 定义语言
 const bills = ref([]);
@@ -52,6 +71,34 @@ const pagination = ref({
   pageSize: 10,
   total: 0
 });
+
+const rechargeDialogVisible = ref(false);
+const rechargeForm = ref({ amount: '' });
+
+// 充值按钮点击事件
+const recharge = () => {
+  rechargeDialogVisible.value = true;
+};
+
+// 处理充值
+const handleRecharge = async () => {
+  try {
+    const response = await rechargeService(rechargeForm.value.amount);
+    if (response.data.success) {
+      // 充值成功处理
+      ElMessage.success('充值成功');
+      rechargeDialogVisible.value = false;
+      rechargeForm.value.amount = ''; // 清空充值金额
+      // 可能需要刷新账单或余额信息
+    } else {
+      // 充值失败处理
+      ElMessage.error('充值失败');
+    }
+  } catch (error) {
+    console.error('充值过程中发生错误:', error);
+    ElMessage.error('充值失败');
+  }
+};
 
 const formatDate = (timestamp) => {
   return new Intl.DateTimeFormat('zh-CN', {

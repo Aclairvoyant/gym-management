@@ -44,6 +44,13 @@ public class PaymentServiceImpl implements PaymentService {
         BigDecimal balance = memberCardMapper.selectByUserId(userId);
         BigDecimal courseFee = courseMapper.selectCoursePrice(courseId);
 
+        String status = courseMapper.selectCourseStatus(courseId);
+
+        if (status.equals("1")) {
+            // 课程已经被预约
+            return false;
+        }
+
         if (balance.compareTo(courseFee) >= 0) {
             // 用户余额足够，处理支付
             Booking booking = new Booking();
@@ -52,6 +59,9 @@ public class PaymentServiceImpl implements PaymentService {
             booking.setBookingDate(new java.util.Date());
             log.info("booking:{}", booking);
             bookingMapper.insert(booking);
+
+            // 更新课程
+            courseMapper.updateCourseStatus(courseId);
 
             // 更新用户余额
             BigDecimal newBalance = balance.subtract(courseFee);

@@ -71,16 +71,17 @@ CREATE TABLE gym_courses (
                              schedule_start DATETIME NOT NULL COMMENT '课程开始时间',
                              schedule_end DATETIME NOT NULL COMMENT '课程结束时间',
                              course_fee DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '课程金额',
+                             isEnrolled CHAR(1) DEFAULT '0' COMMENT '是否已预定，0 未预定， 1 已预定',
                              create_time DATETIME COMMENT '创建时间',
                              update_time DATETIME COMMENT '更新时间',
                              PRIMARY KEY(course_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '课程信息表';
 
-INSERT INTO gym_courses (course_name, coach_id, schedule_start, schedule_end, course_fee, create_time, update_time)
+INSERT INTO gym_courses (course_name, coach_id, schedule_start, schedule_end, course_fee, isEnrolled,create_time, update_time)
 VALUES
-    ('Weightlifting Basics', 101, '2023-01-15 10:00:00', '2023-01-15 11:30:00', 30.00, NOW(), NOW()),
-    ('Yoga for Beginners', 102, '2023-02-01 18:30:00', '2023-02-01 20:00:00', 25.50, NOW(), NOW()),
-    ('Nutrition Workshop', 103, '2023-03-05 14:00:00', '2023-03-05 16:00:00', 50.00, NOW(), NOW());
+    ('Weightlifting Basics', 101, '2023-01-15 10:00:00', '2023-01-15 11:30:00', 30.00, '0', NOW(), NOW()),
+    ('Yoga for Beginners', 102, '2023-02-01 18:30:00', '2023-02-01 20:00:00', 25.50, '0', NOW(), NOW()),
+    ('Nutrition Workshop', 103, '2023-11-28 14:00:00', '2023-11-29 16:00:00', 50.00, '0', NOW(), NOW());
 
 
 DROP TABLE IF EXISTS gym_booking;
