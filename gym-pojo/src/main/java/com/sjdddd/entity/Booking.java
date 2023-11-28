@@ -43,4 +43,9 @@ public class Booking {
     */
     //@ApiModelProperty(value="预定日期时间")
     private Date bookingDate;
+
+    /**
+     * 是否被当前用户预约
+     */
+    private String isEnrolledByCurrentUser;
 }

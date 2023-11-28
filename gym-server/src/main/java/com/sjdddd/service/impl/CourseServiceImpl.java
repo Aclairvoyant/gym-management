@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sjdddd.dto.CourseAddDTO;
 import com.sjdddd.dto.CourseEditDTO;
+import com.sjdddd.dto.CourseWithEnrollmentStatusDTO;
 import com.sjdddd.entity.Coach;
 import com.sjdddd.entity.Course;
 import com.sjdddd.mapper.BookingMapper;
@@ -58,6 +59,7 @@ public class CourseServiceImpl implements CourseService {
         Long coachId = coach.get(0).getCoachId();
 
         courseAddDTO.setCoachId(coachId);
+        courseAddDTO.setIsEnrolled("0");
 
         BeanUtils.copyProperties(courseAddDTO, course);
 
@@ -67,6 +69,7 @@ public class CourseServiceImpl implements CourseService {
                 .courseFee(courseAddDTO.getCourseFee())
                 .scheduleStart(courseAddDTO.getScheduleStart())
                 .scheduleEnd(courseAddDTO.getScheduleEnd())
+                .isEnrolled(courseAddDTO.getIsEnrolled())
                 .build();
 
         courseMapper.insert(course);
@@ -140,8 +143,26 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public boolean unenrollCourse(Object userId, Long courseId) {
-        courseMapper.updateCourseStatusNo(courseId);
+//        courseMapper.updateCourseStatusNo(courseId);
+//
+//        return bookingMapper.updateByBookingStatus(userId, courseId);
+        if (courseMapper.updateCourseStatusNo(courseId) == 1) {
+            return true;
+        }else {
+            return false;
+        }
 
-        return bookingMapper.deleteByCourseId(courseId);
+    }
+
+    @Override
+    public PageResult memberList(Integer pageNum, Integer pageSize, Object userId) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<CourseWithEnrollmentStatusDTO> list = courseMapper.selectAllMember(userId);
+
+        PageInfo page = new PageInfo(list);
+
+        long total = page.getTotal();
+
+        return new PageResult(total, list);
     }
 }

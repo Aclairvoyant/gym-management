@@ -22,15 +22,13 @@ public class Bill {
 
     private Long paymentId;
 
+    private Long bookingId;
 
     private Object userId;
 
-
     private Date paymentDate;
 
-
     private BigDecimal amount;
-
 
     private String paymentType;
 

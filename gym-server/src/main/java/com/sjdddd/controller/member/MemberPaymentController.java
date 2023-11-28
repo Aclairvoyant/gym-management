@@ -2,7 +2,6 @@ package com.sjdddd.controller.member;
 
 import com.sjdddd.annotation.OperationLog;
 import com.sjdddd.constant.JwtClaimsConstant;
-import com.sjdddd.entity.User;
 import com.sjdddd.properties.JwtProperties;
 import com.sjdddd.result.PageResult;
 import com.sjdddd.result.Result;
@@ -14,7 +13,7 @@ import com.sjdddd.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +45,33 @@ public class MemberPaymentController {
 
     @Autowired
     private OrderService orderService;
+
+    @GetMapping("/course/list")
+    @OperationLog(operDesc = "会员查询课程列表")
+    public Result<PageResult> courseMemberList(
+            Integer pageNum,
+            Integer pageSize,
+            HttpServletRequest request
+    ) {
+
+        String token = request.getHeader(jwtProperties.getUserTokenName());
+
+        log.info("token:{}", token);
+
+        Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
+
+        log.info("claims:{}", claims);
+
+        Object userId = claims.get(JwtClaimsConstant.USER_ID);
+
+        log.info("userId:{}", userId);
+
+
+        PageResult pageResult = courseService.memberList(pageNum, pageSize, userId);
+
+        return Result.success(pageResult);
+
+    }
 
     // 余额查询
     @GetMapping("/balance")

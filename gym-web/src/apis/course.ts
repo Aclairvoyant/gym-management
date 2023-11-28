@@ -38,6 +38,11 @@ interface CoursePaymentParams {
     courseId: string
 }
 
+interface CourseMemberList {
+    pageNum: number,
+    pageSize: number,
+}
+
 
 export const getCourseListService = ({ pageNum, pageSize }: CourseList) => {
     console.log(pageNum, pageSize)
@@ -87,5 +92,15 @@ export const payCourseFeeService = (courseId: CoursePaymentParams) => {
 
 export const refundCourseService = (courseId: CoursePaymentParams) => {
     return request.post(`/member/unenroll?courseId=${courseId}`);
+};
+
+export const getMemberCourseListService = ({ pageNum, pageSize }: CourseList) => {
+    console.log(pageNum, pageSize)
+    return request.get('/member/course/list', {
+        params: {
+            pageNum,
+            pageSize
+        }
+    });
 };
 

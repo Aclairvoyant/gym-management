@@ -90,6 +90,7 @@ CREATE TABLE gym_booking (
                              user_id BIGINT(20) NOT NULL COMMENT '用户id',
                              course_id BIGINT(20) NOT NULL COMMENT '课程id',
                              booking_date DATETIME COMMENT '预定日期时间',
+                             isEnrolledByCurrentUser CHAR(1) DEFAULT '0' COMMENT '是否为当前用户预定，0 否， 1 是',
                              PRIMARY KEY(booking_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '预定表';
 
@@ -103,6 +104,7 @@ VALUES
 DROP TABLE IF EXISTS gym_payments;
 CREATE TABLE gym_payments (
                               payment_id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '支付id',
+                              booking_id BIGINT(20) NOT NULL COMMENT '预定id',
                               user_id BIGINT(20) NOT NULL COMMENT '用户id',
                               amount DECIMAL(10,2) NOT NULL DEFAULT '0.00' COMMENT '支付金额',
                               payment_date DATETIME COMMENT '支付日期时间',
@@ -119,14 +121,6 @@ VALUES
 
 
 DROP TABLE IF EXISTS gym_logs;
-CREATE TABLE gym_logs (
-                          log_id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '日志id',
-                          user_id BIGINT(20) NOT NULL COMMENT '用户id',
-                          action_type VARCHAR(20) COMMENT '操作类型',
-                          action_date DATETIME COMMENT '操作日期时间',
-                          PRIMARY KEY(log_id)
-) ENGINE=InnoDB AUTO_INCREMENT=100 COMMENT '日志表';
-
 CREATE TABLE gym_logs (
                           log_id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
                           user_id BIGINT(20) COMMENT '用户ID',

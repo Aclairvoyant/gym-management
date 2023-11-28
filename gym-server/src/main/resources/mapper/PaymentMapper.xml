@@ -5,6 +5,7 @@
         <!--@mbg.generated-->
         <!--@Table gym_payments-->
         <id column="payment_id" jdbcType="BIGINT" property="paymentId"/>
+        <result column="booking_id" jdbcType="BIGINT" property="bookingId"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="amount" jdbcType="DECIMAL" property="amount"/>
         <result column="payment_date" jdbcType="TIMESTAMP" property="paymentDate"/>
@@ -12,7 +13,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        payment_id, user_id, amount, payment_date, payment_type
+        payment_id, booking_id, user_id, amount, payment_date, payment_type
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -29,9 +30,9 @@
     <insert id="insert" keyColumn="payment_id" keyProperty="paymentId" parameterType="com.sjdddd.entity.Payment"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into gym_payments (user_id, amount, payment_date,
+        insert into gym_payments (booking_id, user_id, amount, payment_date,
         payment_type, payment_status)
-        values (#{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{paymentDate,jdbcType=TIMESTAMP},
+        values (#{bookingId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{paymentDate,jdbcType=TIMESTAMP},
         #{paymentType,jdbcType=VARCHAR}, #{paymentStatus,jdbcType=CHAR})
     </insert>
     <insert id="insertSelective" keyColumn="payment_id" keyProperty="paymentId"
@@ -41,6 +42,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">
                 user_id,
+            </if>
+            <if test="booking_id != null">
+                booking_id,
             </if>
             <if test="amount != null">
                 amount,
@@ -55,6 +59,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
                 #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="booking_id != null">
+                #{bookingId,jdbcType=BIGINT},
             </if>
             <if test="amount != null">
                 #{amount,jdbcType=DECIMAL},
@@ -74,6 +81,9 @@
             <if test="userId != null">
                 user_id = #{userId,jdbcType=BIGINT},
             </if>
+            <if test="booking_id != null">
+                booking_id = #{bookingId,jdbcType=BIGINT},
+            </if>
             <if test="amount != null">
                 amount = #{amount,jdbcType=DECIMAL},
             </if>
@@ -90,6 +100,7 @@
         <!--@mbg.generated-->
         update gym_payments
         set user_id = #{userId,jdbcType=BIGINT},
+        booking_id = #{bookingId,jdbcType=BIGINT},
         amount = #{amount,jdbcType=DECIMAL},
         payment_date = #{paymentDate,jdbcType=TIMESTAMP},
         payment_type = #{paymentType,jdbcType=VARCHAR}

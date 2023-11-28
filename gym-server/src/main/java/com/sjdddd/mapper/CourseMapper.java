@@ -1,6 +1,7 @@
 package com.sjdddd.mapper;
 
 import com.sjdddd.annotation.AutoFill;
+import com.sjdddd.dto.CourseWithEnrollmentStatusDTO;
 import com.sjdddd.entity.Coach;
 import com.sjdddd.entity.Course;
 import com.sjdddd.enumeration.OperationType;
@@ -42,5 +43,7 @@ public interface CourseMapper {
 
     String selectCourseStatus(Long courseId);
 
-    void updateCourseStatusNo(Long courseId);
+    int updateCourseStatusNo(Long courseId);
+
+    List<CourseWithEnrollmentStatusDTO> selectAllMember(Object userId);
 }

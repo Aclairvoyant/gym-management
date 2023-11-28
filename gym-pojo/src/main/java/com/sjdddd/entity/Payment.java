@@ -29,6 +29,12 @@ public class Payment {
     private Long paymentId;
 
     /**
+     * 预定id
+     */
+    //@ApiModelProperty(value="预定id")
+    private Long bookingId;
+
+    /**
     * 用户id
     */
     //@ApiModelProperty(value="用户id")

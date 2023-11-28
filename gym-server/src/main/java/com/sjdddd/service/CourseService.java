@@ -31,4 +31,6 @@ public interface CourseService {
     BigDecimal getCoursePrice(Long courseId);
 
     boolean unenrollCourse(Object userId, Long courseId);
+
+    PageResult memberList(Integer pageNum, Integer pageSize, Object userId);
 }

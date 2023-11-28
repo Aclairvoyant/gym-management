@@ -33,4 +33,10 @@ public class CourseAddDTO implements java.io.Serializable{
      */
     //@ApiModelProperty(value="课程结束时间")
     private Date scheduleEnd;
+
+    /**
+     * 课程状态
+     */
+    //@ApiModelProperty(value="课程状态")
+    private String isEnrolled;
 }

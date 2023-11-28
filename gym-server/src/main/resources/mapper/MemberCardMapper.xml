@@ -143,7 +143,7 @@
     <select id="selectAll" resultType="com.sjdddd.entity.MemberCard">
         select *
         from gym_member_cards mc
-                 left join gym_users u
+                 join gym_users u
                            on u.user_id = mc.user_id
         where user_type = '2'
         order by mc.create_time desc

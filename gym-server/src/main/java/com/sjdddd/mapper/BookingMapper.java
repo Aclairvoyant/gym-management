@@ -26,4 +26,12 @@ public interface BookingMapper {
     int updateByPrimaryKey(Booking record);
 
     boolean deleteByCourseId(Long courseId);
+
+    String selectCourseStatus(Long courseId);
+
+    Booking selectByUserIdAndCourseId(Object userId, Long courseId);
+
+    void delete(Booking booking);
+
+    boolean updateByBookingStatus(Object userId, Long courseId);
 }

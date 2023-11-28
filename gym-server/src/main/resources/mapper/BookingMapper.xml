@@ -8,10 +8,11 @@
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="course_id" jdbcType="BIGINT" property="courseId"/>
         <result column="booking_date" jdbcType="TIMESTAMP" property="bookingDate"/>
+        <result column="isEnrolledByCurrentUser" jdbcType="CHAR" property="isEnrolledByCurrentUser"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        booking_id, user_id, course_id, booking_date
+        booking_id, user_id, course_id, booking_date, isEnrolledByCurrentUser
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -19,6 +20,19 @@
         <include refid="Base_Column_List"/>
         from gym_booking
         where booking_id = #{bookingId,jdbcType=BIGINT}
+    </select>
+    <select id="selectCourseStatus" resultType="java.lang.String">
+        select b.isEnrolledByCurrentUser
+        from gym_booking b
+        where course_id = #{courseId,jdbcType=BIGINT}
+        and user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByUserIdAndCourseId" resultType="com.sjdddd.entity.Booking">
+        select *
+        from gym_booking
+        where course_id = #{courseId,jdbcType=BIGINT}
+        and user_id = #{userId,jdbcType=BIGINT}
+        and isEnrolledByCurrentUser = '1'
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         <!--@mbg.generated-->
@@ -28,10 +42,9 @@
     <insert id="insert" keyColumn="booking_id" keyProperty="bookingId" parameterType="com.sjdddd.entity.Booking"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into gym_booking (user_id, course_id, booking_date
+        insert into gym_booking (user_id, course_id, booking_date, isEnrolledByCurrentUser
         )
-        values (#{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{bookingDate,jdbcType=TIMESTAMP}
-        )
+        values (#{userId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{bookingDate,jdbcType=TIMESTAMP}, #{isEnrolledByCurrentUser,jdbcType=CHAR})
     </insert>
     <insert id="insertSelective" keyColumn="booking_id" keyProperty="bookingId"
             parameterType="com.sjdddd.entity.Booking" useGeneratedKeys="true">
@@ -47,6 +60,9 @@
             <if test="bookingDate != null">
                 booking_date,
             </if>
+            <if test="isEnrolledByCurrentUser != null">
+                isEnrolledByCurrentUser,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -57,6 +73,9 @@
             </if>
             <if test="bookingDate != null">
                 #{bookingDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isEnrolledByCurrentUser != null">
+                #{isEnrolledByCurrentUser,jdbcType=CHAR},
             </if>
         </trim>
     </insert>
@@ -73,6 +92,9 @@
             <if test="bookingDate != null">
                 booking_date = #{bookingDate,jdbcType=TIMESTAMP},
             </if>
+            <if test="isEnrolledByCurrentUser != null">
+                isEnrolledByCurrentUser = #{isEnrolledByCurrentUser,jdbcType=CHAR},
+            </if>
         </set>
         where booking_id = #{bookingId,jdbcType=BIGINT}
     </update>
@@ -81,12 +103,24 @@
         update gym_booking
         set user_id = #{userId,jdbcType=BIGINT},
         course_id = #{courseId,jdbcType=BIGINT},
-        booking_date = #{bookingDate,jdbcType=TIMESTAMP}
+        booking_date = #{bookingDate,jdbcType=TIMESTAMP},
+        isEnrolledByCurrentUser = #{isEnrolledByCurrentUser,jdbcType=CHAR}
         where booking_id = #{bookingId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByBookingStatus">
+        update gym_booking
+        set isEnrolledByCurrentUser = '0'
+        where course_id = #{courseId,jdbcType=BIGINT}
+        and user_id = #{userId,jdbcType=BIGINT}
     </update>
 
     <delete id="deleteByCourseId">
         delete from gym_booking
         where course_id = #{courseId,jdbcType=BIGINT}
+    </delete>
+    <delete id="delete">
+        delete from gym_booking
+        where course_id = #{courseId,jdbcType=BIGINT}
+        and user_id = #{userId,jdbcType=BIGINT}
     </delete>
 </mapper>

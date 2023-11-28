@@ -33,29 +33,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="180" align="center" fixed="right">
+      <el-table-column label="操作" width="150" align="center" fixed="right">
         <template #default="{ row }">
-          <el-button
-              type="primary"
-              size="mini"
-              @click="handleEnroll(row)"
-              v-if="row.isEnrolled === '0'"
-          >报名</el-button>
-          <el-button
-              type="primary"
-              size="mini"
-              disabled
-              v-if="row.isEnrolled === '1'"
-          >已报名</el-button>
-          <el-button
-              type="danger"
-              size="mini"
-              @click="handleRefund(row)"
-              :disabled="row.isEnrolled === '0'"
-          >退课</el-button>
+          <el-button v-if="row.isEnrolledByOther === '1'" type="info" size="mini" disabled>已被预订</el-button>
+          <el-button v-else-if="row.isEnrolledByCurrentUser === '1'" type="warning" size="mini" @click="handleRefund(row)">退课</el-button>
+          <el-button v-else type="primary" size="mini" @click="handleEnroll(row)">报名</el-button>
         </template>
       </el-table-column>
-
 
       <template #empty>
         <el-empty description="没有数据"/>
@@ -94,7 +78,7 @@ import {
   addCourseService,
   deleteCourseService,
   editCourseService, getCoachListService,
-  getCourseListService, refundCourseService,
+  getCourseListService, getMemberCourseListService, refundCourseService,
   searchCourseService
 } from "@/apis/course";
 import router from "@/router";
@@ -143,7 +127,7 @@ const fetchCourses = async () => {
     const pageSize = pagination.value.pageSize;
 
     //console.log(params)
-    const response = await getCourseListService({pageNum, pageSize});
+    const response = await getMemberCourseListService({pageNum, pageSize});
     courses.value = response.data.data.items;
     console.log(courses.value)
     pagination.value.total = response.data.data.total;
@@ -220,6 +204,19 @@ const payForCourse = async (courseId) => {
 // 报名
 const handleEnroll = async (courses) => {
   try {
+    //console.log(courses)
+
+    // 检查课程能否报名
+    if (courses.isEnrolledByOther === '1') {
+      ElMessage.error('该课程已被其他会员报名');
+      return;
+    }
+
+    if (courses.scheduleStart < Date.now()) {
+      ElMessage.error('该课程已开始，无法报名');
+      return;
+    }
+
     // 检查余额逻辑（假设有一个方法 checkUserBalance 返回余额是否足够）
     const balanceEnough = await checkUserBalance(courses.courseFee);
 
@@ -237,7 +234,7 @@ const handleEnroll = async (courses) => {
     console.log(courses.courseId)
     //await enrollCourseService(courses.courseId);
     ElMessage.success('报名成功！');
-
+    //console.log(courses)
   } catch (error) {
     console.error('报名失败:', error);
     ElMessage.error('报名失败');
@@ -253,21 +250,32 @@ const canRefund = (scheduleStart) => {
 };
 
 // 退课
-const handleRefund = async (course) => {
+const handleRefund = async (courses) => {
   try {
     // 检查是否可以退课（比如，检查当前时间是否在课程开始时间之前）
-    if (!canRefund(course.scheduleStart)) {
+    if (!canRefund(courses.scheduleStart)) {
       ElMessage.warning('课程已开始，无法退课');
       return;
     }
 
+    await ElMessageBox.confirm('确定要退课吗？', '退课确认', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
+
     //调用退款接口，然后退课
     //await refundForCourse(course.courseId);
-    await refundCourseService(course.courseId);
+    await refundCourseService(courses.courseId);
     ElMessage.success('退课成功！');
+    courses.isEnrolledByCurrrentUser = '0';
+    await fetchCourses();
   } catch (error) {
-    console.error('退课失败:', error);
-    ElMessage.error('退课失败');
+    // 用户点击了取消或退课过程中出现错误
+    if (error !== 'cancel') {
+      console.error('退课失败:', error);
+      ElMessage.error('退课失败');
+    }
   } finally {
     // 无论退课成功还是失败，都要重新获取课程列表
     await fetchCourses();
