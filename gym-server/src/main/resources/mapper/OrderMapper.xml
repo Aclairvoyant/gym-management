@@ -19,16 +19,17 @@
     <!-- OrderMapper.xml -->
     <select id="selectAllOrders" resultMap="OrderResultMap">
         SELECT
-        b.booking_id, b.course_id, b.user_id, b.booking_date,
-        p.payment_id, p.amount, p.payment_date, p.payment_type, p.payment_status,
-        c.course_name,
-        u.user_real_name AS userRealName,
-        co.coach_real_name AS coachRealName
+            b.booking_id, b.course_id, b.user_id, b.booking_date,
+            p.payment_id, p.amount, p.payment_date, p.payment_type, p.payment_status,
+            c.course_name,
+            u.user_real_name AS userRealName,
+            co.coach_real_name AS coachRealName
         FROM gym_booking b
-        JOIN gym_payments p ON b.user_id = p.user_id
-        JOIN gym_courses c ON b.course_id = c.course_id
-        JOIN gym_users u ON b.user_id = u.user_id
-        JOIN gym_coachs co ON c.coach_id = co.coach_id
+                 JOIN gym_courses c ON b.course_id = c.course_id
+                 JOIN gym_coachs co ON c.coach_id = co.coach_id
+                 JOIN gym_users u ON b.user_id = u.user_id
+                 LEFT JOIN gym_payments p ON b.booking_id = p.booking_id
+                 JOIN gym_member_cards m ON b.user_id = m.user_id
         ORDER BY b.booking_date DESC
     </select>
 
