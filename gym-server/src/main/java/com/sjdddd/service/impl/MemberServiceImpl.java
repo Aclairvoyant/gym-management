@@ -78,7 +78,11 @@ public class MemberServiceImpl implements MemberService {
 
         memberCard.setMemberFee(memberAddDTO.getMemberFee());
         memberCard.setUserId(userId);
-        memberCard.setMemberCardStatus(memberAddDTO.getMemberCardStatus());
+        if (memberAddDTO.getMemberCardStatus() == null) {
+            memberCard.setMemberCardStatus("0");
+        } else {
+            memberCard.setMemberCardStatus(memberAddDTO.getMemberCardStatus());
+        }
         memberCard.setActivateTime(LocalDateTime.now());
 
 

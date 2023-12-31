@@ -83,7 +83,7 @@ const onUpdateAvatar = async () => {
       imgUrl.value = updatedAvatarUrl;
     } catch (error) {
       console.error('头像更新失败:', error);
-      ElMessage.error('头像更新失败');
+      //ElMessage.error('头像更新失败');
     }
   } else {
     ElMessage.warning('请选择一个头像');

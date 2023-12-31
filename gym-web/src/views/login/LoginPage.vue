@@ -24,12 +24,20 @@ const rules = {
   userName: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
     {
+      pattern: /^[a-zA-Z0-9_-]{4,12}$/,
+      message: "用户名支持包含数字、字母，长度为4-12位",
+    },
+    {
       required: true,
       trigger: 'blur'
     }
   ],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
+    {
+      pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z\\W]{6,18}$/,
+      message: "密码必须包含数字、字母，长度为6-18位",
+    },
     {
       required: true,
       trigger: 'blur'
@@ -266,7 +274,6 @@ watch(isRegister, () => {
       <!-- 登录相关表单 -->
       <el-form
           :model="formModel"
-          :rules="rules"
           ref="form"
           size="large"
           autocomplete="off"

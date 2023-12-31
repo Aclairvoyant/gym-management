@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(userRegisterDTO, user);
 
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        user.setUserType("2");
 
         userMapper.insertSelective(user);
 

@@ -115,7 +115,7 @@
 
   <!-- 添加会员信息对话框 -->
   <el-dialog v-model="addDialogVisible" title="添加会员信息">
-    <el-form :model="addFormData">
+    <el-form :model="addFormData" :rules="rules">
       <el-form-item label="会员卡号" :label-width="formLabelWidth">
         <el-input disabled placeholder="卡号由系统自动生成"></el-input>
       </el-form-item>
@@ -280,6 +280,28 @@ const addMember = () => {
 const updateMemberInfo = async () => {
   console.log('更新会员信息', editFormData.value);
   try {
+    if (editFormData.value.userRealName === undefined || editFormData.value.userRealName === '') {
+      ElMessage.warning('请输入会员姓名');
+      return;
+    } else if (!/^[\u4E00-\u9FA5]{2,10}/.test(editFormData.value.userRealName)) {
+      ElMessage.warning('会员姓名格式不正确');
+      return;
+    }
+    if (editFormData.value.userPhone === undefined || editFormData.value.userPhone === '') {
+      ElMessage.warning('请输入手机号');
+      return;
+    } else if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(editFormData.value.userPhone)) {
+      ElMessage.warning('手机号格式不正确');
+      return;
+    }
+    if (editFormData.value.sex === undefined) {
+      ElMessage.warning('请选择性别');
+      return;
+    }
+    if (editFormData.value.memberFee === undefined) {
+      ElMessage.warning('请输入余额');
+      return;
+    }
     await editMemberService(editFormData.value);
 
     ElMessage.success('会员信息更新成功');
@@ -334,6 +356,28 @@ const addNewMember = async () => {
       userPhone: addFormData.value.userPhone,
       memberFee: addFormData.value.memberFee
     };
+    if (memberData.userRealName === undefined || memberData.userRealName === '') {
+      ElMessage.warning('请输入会员姓名');
+      return;
+    } else if (!/^[\u4E00-\u9FA5]{2,10}/.test(memberData.userRealName)) {
+      ElMessage.warning('会员姓名格式不正确');
+      return;
+    }
+    if (memberData.userPhone === undefined || memberData.userPhone === '') {
+      ElMessage.warning('请输入手机号');
+      return;
+    } else if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(memberData.userPhone)) {
+      ElMessage.warning('手机号格式不正确');
+      return;
+    }
+    if (memberData.sex === undefined) {
+      ElMessage.warning('请选择性别');
+      return;
+    }
+    if (memberData.memberFee === undefined) {
+      ElMessage.warning('请输入余额');
+      return;
+    }
     console.log('添加会员信息', memberData);
     await addMemberService(memberData);
     ElMessage.success('会员添加成功');

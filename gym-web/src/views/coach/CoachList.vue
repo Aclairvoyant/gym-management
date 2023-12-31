@@ -255,8 +255,26 @@ const addCoach = () => {
 const updateCoachInfo = async () => {
   console.log('更新教练信息', editFormData.value);
   try {
-    await editCoachService(editFormData.value);
+    if (editFormData.value.coachRealName === undefined || editFormData.value.coachRealName === '') {
+      ElMessage.warning('请输入教练姓名');
+      return;
+    } else if (!/^[\u4E00-\u9FA5]{2,10}/.test(editFormData.value.coachRealName)) {
+      ElMessage.warning('教练姓名格式不正确');
+      return;
+    }
+    if (editFormData.value.coachPhone === undefined || editFormData.value.coachPhone === '') {
+      ElMessage.warning('请输入手机号');
+      return;
+    } else if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(editFormData.value.coachPhone)) {
+      ElMessage.warning('手机号格式不正确');
+      return;
+    }
+    if (editFormData.value.coachSex === undefined) {
+      ElMessage.warning('请选择性别');
+      return;
+    }
 
+    await editCoachService(editFormData.value);
     ElMessage.success('教练信息更新成功');
   } catch (error) {
     console.error('更新教练信息失败:', error);
@@ -305,6 +323,24 @@ const addNewCoach = async () => {
       coachPhone: addFormData.value.coachPhone,
       coachRemark: addFormData.value.coachRemark
     };
+    if (coachData.coachRealName === undefined || coachData.coachRealName === '') {
+      ElMessage.warning('请输入教练姓名');
+      return;
+    } else if (!/^[\u4E00-\u9FA5]{2,10}/.test(coachData.coachRealName)) {
+      ElMessage.warning('教练姓名格式不正确');
+      return;
+    }
+    if (coachData.coachPhone === undefined || coachData.coachPhone === '') {
+      ElMessage.warning('请输入手机号');
+      return;
+    } else if (!/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(coachData.coachPhone)) {
+      ElMessage.warning('手机号格式不正确');
+      return;
+    }
+    if (coachData.coachSex === undefined) {
+      ElMessage.warning('请选择性别');
+      return;
+    }
     console.log('添加教练信息', coachData);
     await addCoachService(coachData);
     ElMessage.success('教练添加成功');

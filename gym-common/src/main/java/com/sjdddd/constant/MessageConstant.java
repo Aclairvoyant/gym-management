@@ -27,4 +27,8 @@ public class MessageConstant {
     public static final String UPLOAD_FAILED = "上传失败";
 
     public static final String REQUEST_IP_FAILED = "请求IP失败";
+
+    public static final String UPLOAD_FAILED_WITH_WRONG_FILE_TYPE = "上传失败，文件类型错误";
+
+    public static final String UPLOAD_FAILED_WITH_EXCEEDED_FILE_SIZE = "上传失败，文件大小超过5M";
 }

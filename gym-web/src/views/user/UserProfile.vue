@@ -75,12 +75,9 @@ const form = ref({
 
 const rules = ref({
   userRealName: [
-    {required: true, message: '请输入用户姓名', trigger: 'blur'},
-    {
-      pattern: /^[\u4E00-\u9FA5]{2,10}/,
-      message: '昵称长度在2-10个非空字符',
-      trigger: 'blur'
-    }
+    { required: true, message: '请输入真实姓名', trigger: 'blur' },
+    { pattern: /^[\u4E00-\u9FA5]{2,10}/,
+      message: '真实姓名格式不正确', trigger: 'blur' },
   ],
   userPhone: [
     {required: true, message: '请输入用户手机号', trigger: 'blur'},

@@ -37,16 +37,22 @@ const checkSameAsNewPwd = (rule, value, callback) => {
 const rules = ref({
   old_pwd: [
     {required: true, message: '请输入原密码', trigger: 'blur'},
-    {min: 6, max: 15, message: '原密码长度在6-15位之间', trigger: 'blur'}
+    {min: 6, max: 18, message: '原密码长度在6-18位之间', trigger: 'blur'}
   ],
   new_pwd: [
     {required: true, message: '请输入新密码', trigger: 'blur'},
-    {min: 6, max: 15, message: '新密码长度在6-15位之间', trigger: 'blur'},
+    {
+      pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z\\W]{6,18}$/,
+      message: "密码必须包含数字、字母，长度为6-18位",
+    },
     {validator: checkDifferent, trigger: 'blur'}
   ],
   re_pwd: [
     {required: true, message: '请再次输入新密码', trigger: 'blur'},
-    {min: 6, max: 15, message: '确认密码长度在6-15位之间', trigger: 'blur'},
+    {
+      pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z\\W]{6,18}$/,
+      message: "密码必须包含数字、字母，长度为6-18位",
+    },
     {validator: checkSameAsNewPwd, trigger: 'blur'}
   ]
 })

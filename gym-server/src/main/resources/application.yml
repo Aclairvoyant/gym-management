@@ -13,6 +13,9 @@ spring:
     password: ${sjdddd.datasource.password}
   application:
     name: sjdddd
+  servlet:
+    multipart:
+      max-file-size: 5MB
 
 #springdoc:
 #  swagger-ui:

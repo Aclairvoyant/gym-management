@@ -37,8 +37,16 @@ public class CommonController {
         try {
             // 获取文件名
             String originalFilename = file.getOriginalFilename();
+            // 判断文件类型
+            if (!originalFilename.endsWith(".jpg") && !originalFilename.endsWith(".png") && !originalFilename.endsWith(".jpeg")) {
+                return Result.error(MessageConstant.UPLOAD_FAILED_WITH_WRONG_FILE_TYPE);
+            }
+            // 判断文件大小
+            if (file.getSize() > 1024 * 1024 * 5) {
+                return Result.error(MessageConstant.UPLOAD_FAILED_WITH_EXCEEDED_FILE_SIZE);
+            }
             // UUID生成随机文件名
-            String fileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
+            String fileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
             // 上传文件
             String filePath = aliOssUtil.upload(file.getBytes(), fileName);
 
