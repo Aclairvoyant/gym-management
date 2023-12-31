@@ -48,7 +48,7 @@ FitManage系统将覆盖用户管理、会员登记、会员卡管理、健身�
 
 #### 2.2.2 对于大众用户的需求分析
 
-1. 简单的注册和登录：提供便捷的注册和登录流程。
+1. 简单的注册和登录：提供便捷地注册和登录流程。
 2. 查看和预订课程：方便查看课程安排和在线预订课程。
 3. 个人信息管理：能够查看和修改个人信息，如联系方式和健康状况。
 4. 费用查询和支付：清晰的费用明细和多种支付选项。
@@ -206,30 +206,270 @@ FitManage系统将覆盖用户管理、会员登记、会员卡管理、健身�
 
 ### 5.1 登录注册
 
+[![登录界面](/ReadMeResources/img_6.png)](/ReadMeResources/img_6.png)
+
 ```vue
-1.	const login = async () => {
-2.	  try {
-3.	    await form.value.validate();
-4.	    // 调用登录接口
-5.	    const res = await userLoginService(formModel.value);
-6.	    console.log(res)
-7.
-8.	    if (res.data && res.data.data) {
-9.	      const { token, userType } = res.data.data;
-10.
-11.	      // 存储 token 和 userType
-12.	      userStore.setToken(token);
-13.	      userStore.setUserType(userType);
-14.
-15.	      ElMessage.success('登录成功');
-16.
-17.	      // 跳转到对应的页面
-18.	      await router.push(userType === '1' ? '/adminDashboard' : '/memberDashboard');
-19.	    }
-20.	  } catch (error) {
-21.	    console.error("登录失败:", error);
-22.	    ElMessage.error('登录失败');
-23.	  }
-24.	}
+const login = async () => {
+  try {
+    await form.value.validate();
+    const res = await userLoginService(formModel.value);
+
+    if (res.data && res.data.data) {
+      const { token, userType } = res.data.data;
+
+      // 存储 token 和 userType
+      userStore.setToken(token);
+      userStore.setUserType(userType);
+
+      ElMessage.success('登录成功');
+
+      // 跳转到对应的页面
+      await router.push(userType === '1' ? '/adminDashboard' : '/memberDashboard');
+    }
+  } catch (error) {
+    console.error("登录失败:", error);
+    ElMessage.error('登录失败');
+  }
+}
 ```
 
+如果找不到该账户，则会返回账号不存在的消息给前端，前端会弹出消息框提示用户。如果密码错误，则会返回密码错误的消息。
+当然，为防止用户进行撞库，仅在测试环境中，才提示具体信息。
+
+```java
+/**
+ * 用户登录
+ * @param userLoginDTO
+ * @return
+ */
+@Override
+public User login(UserLoginDTO userLoginDTO) {
+    String username = userLoginDTO.getUserName();
+    String password = userLoginDTO.getPassword();
+
+    User user = userMapper.selectByUserName(username);
+
+    if (user == null) {
+        // 账号不存在
+       throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
+    }
+
+    //密码加密
+   password = DigestUtils.md5DigestAsHex(password.getBytes());
+
+    //密码比对
+   if (!password.equals(user.getPassword())) {
+       //密码错误
+      throw new BaseException(MessageConstant.PASSWORD_ERROR);
+   }
+
+   return user;
+}
+```
+
+一旦用户成功登录，生成JWT令牌，每个后续请求都将包含令牌，从而允许用户访问该令牌允许的路由，服务和资源。
+前端使用Pinia将该用户token存储在本地，减少每次请求对服务器的压力。同时根据用户(user_type)的类型，判断该用户为管理员亦或是会员，进行不同页面的跳转。
+
+```java
+@PostMapping("/login")
+@Operation(summary = "用户登录")
+@OperationLog(operDesc = "用户登录")
+public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
+    log.info("用户登录：{}", userLoginDTO.getUserName());
+
+    User user = userService.login(userLoginDTO);
+
+    //登录成功后，生成jwt令牌
+   Map<String, Object> claims = new HashMap<>();
+   claims.put(JwtClaimsConstant.USER_ID, user.getUserId());
+   String token = JwtUtil.createJWT(
+           jwtProperties.getUserSecretKey(),
+           jwtProperties.getUserTtl(),
+           claims);
+
+   UserLoginVO userLoginVO = UserLoginVO.builder()
+           .userType(user.getUserType())
+           .token(token)
+           .build();
+
+   return Result.success(userLoginVO);
+
+    }
+```
+
+在注册界面，前端与后端都会校验用户输入的合法性，确保输入数据符合预期格式和类型，有助于保持数据库和系统的数据完整性。
+无论是出于安全性、稳定性还是用户体验的考虑，这是开发过程中的一个重要环节。
+
+[![注册界面](/ReadMeResources/img_7.png)](/ReadMeResources/img_7.png)
+
+### 5.2 管理员界面
+来到管理员主界面，分为会员管理、教练管理、课程管理、订单查询、日志查询、个人中心几个大模块。
+个人中心为通用组件页面，里面为用户基本资料、更换头像、重置密码。该组件所有用户都能看到。
+
+[![管理员主界面](/ReadMeResources/img_8.png)](/ReadMeResources/img_8.png)
+
+用户基本资料会在登录成功后就会返回给前端，并且在点击该页面后进行渲染。
+
+[![用户基本资料](/ReadMeResources/img_9.png)](/ReadMeResources/img_9.png)
+
+个人头像在数据库表中设计的为该图片的地址，如果在数据库中直接存储大型二进制数据，会导致性能下降。读取和写入数据可能会占用大量的I/O资源和处理时间，也会增加硬件需求和成本。因此这里使用阿里云的对象存储服务OSS，将该图像的外链存入数据库，链接肯定比一张图的二进制小，前端则会直接访问该外链进行回显。使用UUID防止文件重名问题。
+
+```java
+@PostMapping("/upload/avatar")
+public Result<String> upload(MultipartFile file, @RequestParam("userId") Long userId) throws IOException {
+   log.info("文件上传：{}", file.getOriginalFilename());
+
+   try {
+      // 获取文件名
+      String originalFilename = file.getOriginalFilename();
+      // UUID生成随机文件名
+      String fileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
+      // 上传文件
+      String filePath = aliOssUtil.upload(file.getBytes(), fileName);
+
+      // 更新用户头像
+      userService.updateAvatar(userId, filePath);
+
+      return Result.success(filePath);
+   } catch (IOException e) {
+      log.info("文件上传失败：{}", e.getMessage());
+   }
+   return Result.error(MessageConstant.UPLOAD_FAILED);
+}
+```
+
+
+管理端会员管理、教练管理以及课程管理主要涉及一些数据库的增删改查，教练姓名将在添加课程信息时进行提示，也支持字母的模糊搜索。
+
+[![添加课程信息](/ReadMeResources/img_10.png)](/ReadMeResources/img_10.png)
+
+```vue
+// 根据输入查询匹配的教练姓名
+const querySearch = async (queryString, cb) => {
+  try {
+    const response = await getCoachListService();
+    const coachNames = response.data.data.map(coach => ({ value: coach.coachRealName }));
+    // 过滤和搜索词匹配的结果
+    const results = coachNames.filter(coach => coach.value.toLowerCase().includes(queryString.toLowerCase()));
+    cb(results); // 返回结果
+  } catch (error) {
+    console.error('获取教练列表失败:', error);
+    cb([]); // 发生错误时返回空数组
+  }
+}
+```
+
+日志模块方面后端使用自定义注解，在每个请求方法前添加日志自定义注解，调用切入点，记录操作日志。
+
+[![日志模块](/ReadMeResources/img_11.png)](/ReadMeResources/img_11.png)
+
+```java
+    /**
+     * 设置操作日志切入点 记录操作日志 在注解的位置切入代码
+     */
+    @Pointcut("@annotation(com.sjdddd.annotation.OperationLog)")
+    public void operLogPoinCut() {
+    }
+
+    /**
+     * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
+     *
+     * @param joinPoint 切入点
+     * @param keys      返回结果
+     */
+    @AfterReturning(value = "operLogPoinCut()", returning = "keys")
+    public void saveOperLog(JoinPoint joinPoint, Object keys) {
+        // 获取RequestAttributes
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        // 从获取RequestAttributes中获取HttpServletRequest的信息
+        HttpServletRequest request = (HttpServletRequest) requestAttributes
+                .resolveReference(RequestAttributes.REFERENCE_REQUEST);
+
+        Log operlog = new Log();
+        try {
+
+            // 从切面织入点处通过反射机制获取织入点处的方法
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            // 获取切入点所在的方法
+            Method method = signature.getMethod();
+            // 获取操作
+            OperationLog opLog = method.getAnnotation(OperationLog.class);
+            if (opLog != null) {
+                String operDesc = opLog.operDesc();
+                operlog.setActionType(operDesc); // 操作描述
+            }
+            // 获取请求的类名
+            String className = joinPoint.getTarget().getClass().getName();
+            // 获取请求的方法名
+            String methodName = method.getName();
+            methodName = className + "." + methodName;
+
+            operlog.setRequestMethod(methodName); // 请求方法
+
+            // 请求的参数
+            Object[] arguments = joinPoint.getArgs();
+            //判断参数数组是否为空
+            Stream<?> stream = ArrayUtils.isEmpty(arguments) ? Stream.empty() :  Arrays.asList(arguments).stream();
+            //过滤 joinPoint.getArgs()返回的数组中携带有Request或者Response对象
+            List<Object> logArgs = stream
+                    .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+                    .collect(Collectors.toList());
+
+            // 先将参数所在的list 转换成json 数组
+            JSONArray jsonArray = JSONArray.parseArray(JSON.toJSONString(logArgs));
+            //再转 json 字符串
+            String params = jsonArray.toJSONString();
+
+            operlog.setRequestData(params); // 请求参数
+            operlog.setResponseData(JSON.toJSONString(keys)); // 返回结果
+            User user = getUser();
+            operlog.setUserId(user != null ? user.getUserId() : 0); // 请求用户ID
+            operlog.setUserName(user != null ? user.getUserName() : "admin"); // 请求用户名称
+            operlog.setActionDate(new Date()); // 创建时间
+            operlog.setRequestIp(getIp()); // 请求IP
+            operlog.setRequestUri(request.getRequestURI()); // 请求URI
+            operatelogsService.save(operlog);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+```
+
+### 5.3 会员界面
+
+分为课程管理、账单管理以及个人中心。课程管理页面可以列出管理端所添加的课程，用户可以进行报名，退课操作。
+在报名课程前，系统会对该用户的余额进行查询，如不满足该课程所需报名金额，则会跳转充值界面。
+若该课程已被其他用户报名，则此用户无法进行报名，前端会显示已被预定。
+用户想进行退课，会对课程开始时间检查，防止用户不合法退课。
+后端部分，支付涉及多表查询插入更新操作，此处应开启事务，保证数据的一致性以及操作的原子性，一个失败就应该回滚，丢出错误信息给前端。
+
+[![课程报名](/ReadMeResources/img_12.png)](/ReadMeResources/img_12.png)
+
+该课程被其他用户预定。
+
+```mysql
+SELECT  
+    course.*,  
+    coach.coach_real_name AS coachRealName,  
+    # 对于每个课程，检查当前用户（userId）是否预订了该课程  
+    MAX(CASE WHEN booking.user_id = #{userId, jdbcType=BIGINT}  
+        # 如果是，isEnrolledByCurrentUser 设置为 1，否则为 0。  
+	    THEN booking.isEnrolledByCurrentUser ELSE '0'  
+	    END) AS isEnrolledByCurrentUser,  
+	# 对于每个课程，检查是否有除当前用户外的其他用户预订了该课程，  
+	# 并且这些预订是有效的（即 isEnrolledByCurrentUser 为 1）。  
+    MAX(CASE WHEN booking.user_id != #{userId, jdbcType=BIGINT}  
+	    #如果是，isEnrolledByOther 设置为 1，否则为 0。  
+	        AND booking.isEnrolledByCurrentUser = '1'  
+        THEN '1' ELSE '0'  
+	    END) AS isEnrolledByOther  
+FROM gym_courses course  
+	LEFT JOIN gym_coachs coach  
+        ON course.coach_id = coach.coach_id  
+	LEFT JOIN gym_booking booking  
+        ON course.course_id = booking.course_id  
+GROUP BY course.course_id, coach.coach_real_name  
+ORDER BY course.course_id  
+```
+
+账单界面可以查看用户自己的支付记录、报名课程，退课课程，支付方式金额。

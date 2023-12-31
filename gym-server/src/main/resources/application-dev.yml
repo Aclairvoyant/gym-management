@@ -6,3 +6,9 @@ sjdddd:
     database: gym-management
     username: root
     password: shenjiadong1010
+
+  alioss:
+    access-key-id:
+    access-key-secret:
+    bucket-name:
+    endpoint:
