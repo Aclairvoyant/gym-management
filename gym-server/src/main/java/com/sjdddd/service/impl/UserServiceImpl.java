@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 用户登录
-     *
      * @param userLoginDTO
      * @return
      */
@@ -39,7 +38,6 @@ public class UserServiceImpl implements UserService {
         String username = userLoginDTO.getUserName();
         String password = userLoginDTO.getPassword();
 
-        //log.info(password);
 
         User user = userMapper.selectByUserName(username);
 
@@ -48,8 +46,8 @@ public class UserServiceImpl implements UserService {
             throw new BaseException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
+        //密码加密
         password = DigestUtils.md5DigestAsHex(password.getBytes());
-        //log.info(password);
 
         //密码比对
         if (!password.equals(user.getPassword())) {

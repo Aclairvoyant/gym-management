@@ -35,10 +35,14 @@ public class CommonController {
         log.info("文件上传：{}", file.getOriginalFilename());
 
         try {
+            // 获取文件名
             String originalFilename = file.getOriginalFilename();
+            // UUID生成随机文件名
             String fileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
+            // 上传文件
             String filePath = aliOssUtil.upload(file.getBytes(), fileName);
 
+            // 更新用户头像
             userService.updateAvatar(userId, filePath);
 
             return Result.success(filePath);

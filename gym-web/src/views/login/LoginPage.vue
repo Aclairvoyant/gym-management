@@ -144,16 +144,13 @@ const login = async () => {
     if (res.data && res.data.data) {
       const { token, userType } = res.data.data;
 
-      console.log(res.data.data)
-
+      // 存储 token 和 userType
       userStore.setToken(token);
       userStore.setUserType(userType);
 
       ElMessage.success('登录成功');
 
-      console.log(token)
-      console.log(userType)
-
+      // 跳转到对应的页面
       await router.push(userType === '1' ? '/adminDashboard' : '/memberDashboard');
     }
   } catch (error) {
